@@ -10,7 +10,8 @@ import (
 )
 
 func loadPage(path string)(page *Page, err os.Error){
-	//will return a mongodb document
+	//will load a mongodb document
+	//deserialized into a page struct
 	log.Println(path)
 	return &Page{Path:path,Title:"Clarity Services Home Page", Content:"Your body goes here"}, nil
 }
