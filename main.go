@@ -5,6 +5,7 @@ import (
 	"github.com/garyburd/twister/server"
 	"template"
 	"os"
+	
 )
 
 func loadPage(path string)(content string, err os.Error){
@@ -19,6 +20,8 @@ func viewHandler(req *web.Request) {
 	if err != nil {
 		// do something!
 	}
+	println(p)
+	
 	
 }
 
