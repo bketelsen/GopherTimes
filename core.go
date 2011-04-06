@@ -39,18 +39,6 @@ const coreStr = `
 <body>
 <hr>
 Status: {status} {message}
-Oh No!  We broke something here.  Promise we'll fix it later.
-{.section req}
-<table>
-<tr><th align="left" valign="top">RemoteAddr</th><td>{RemoteAddr}</td></tr>
-<tr><th align="left" valign="top">Method</th><td>{Method}</td></tr>
-<tr><th align="left" valign="top">URL</th><td>{URL}</td></tr>
-<tr><th align="left" valign="top">ProtocolVersion</th><td>{ProtocolVersion}</td></tr>
-<tr><th align="left" valign="top">Param</th><td>{Param}</td></tr>
-<tr><th align="left" valign="top">ContentType</th><td>{ContentType}</td></tr>
-<tr><th align="left" valign="top">ContentLength</th><td>{ContentLength}</td></tr>
-<tr><th align="left" valign="top">Header</th><td>{Header}</td></tr>
-</table>
-{.end}
+We're sorry, but there was a problem fulfilling your request.
 </body>
 </html> `
