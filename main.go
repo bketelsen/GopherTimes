@@ -23,12 +23,10 @@ func viewHandler(req *web.Request) {
 }
 
 func main() {
-	// this is a bad regex, will only handle single word, not full path
-	const pathParam = "<path:[a-zA-Z0-9]+>"
 	h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
 		web.NewRouter().
-			Register("/"+pathParam, "GET", viewHandler).
 			Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")))
+			Register("/(.*)", "GET", viewHandler).
 	server.Run(":8080", h)
 }
 
@@ -53,3 +51,4 @@ const homeStr = `
 {.end}
 </body>
 </html>`
+
