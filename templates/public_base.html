@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="description" content="A real-time credit bureau providing credit-related data that extends beyond the traditional information offered by the three major credit bureaus.  Clarity provides risk management data for the under-banked, subprime, and emerging consumer populations allowing financial service providers new insight into existing customers and new opportunities to develop new or previously unattainable relationships for those consumers." />
+    <meta name="keywords" content="clarity, clarity services, credit bureau, credit report, credit reports, credit score, credit scores, credit history, payday loan, payday loans, under banked, underbanked, sub prime credit, subprime, sub-prime, underwriting, consumer credit report, credit data, Equifax, Experian, TransUnion"/>
+    <title><%= "Clarity Services" %></title>
+    <%= yield :html_head %>
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link href="/stylesheets/main.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/flip_chart.css" rel="stylesheet" type="text/css" />
+    <!--[if IE 6]>
+	<link href="/stylesheets/ie6/ie6.css" rel="stylesheet" type="text/css" />
+      <script type="text/javascript" src="/javascripts/ie6PngFix.js"></script>
+    <![endif]-->
+   	<!--[if lt IE 9]>
+	  <link rel="stylesheet" type="text/css" href="/stylesheets/ie6/iefix.css" />
+    <![endif]-->
+
+    <script type="text/javascript" src="/javascripts/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery-ui-1.7.2.custom.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.hoverintent.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.timers.js"></script>
+    <script type="text/javascript" src="/javascripts/browser_support.js"></script>
+    <script type="text/javascript" src="/javascripts/navigation.js"></script>
+    <script type="text/javascript" src="/javascripts/flip_chart.js"></script>
+  </head>
+
+  <body id="body">
+    
+    <div id="container">
+
+      <%= render(:partial =>  'layouts/public_header') %>
+      <br/>
+      <%= render :partial =>  'layouts/nav_public' %>
+
+
+      <div id="content" class="inner-page">
+        <input type="hidden" name="scale" value="1" />
+
+        <%= @content_for_layout %>
+
+      </div><!-- /content -->
+
+      <%= render(:partial =>  'layouts/public_footer') %>
+
+    </div><!-- /container -->
+
+  </body>
+</html>

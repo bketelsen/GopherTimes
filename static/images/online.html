@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+
+
+
+
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <script src="online_files/prototype.js" type="text/javascript"></script>
+<script src="online_files/effects.js" type="text/javascript"></script>
+<script src="online_files/dragdrop.js" type="text/javascript"></script>
+    <script src="online_files/application.js" type="text/javascript"></script>
+<script src="online_files/tooltip.js" type="text/javascript"></script>
+    <script src="online_files/live_validation.js" type="text/javascript"></script>
+    
+    <script media="all" src="online_files/active_scaffold.js" type="text/javascript"></script>
+<script media="all" src="online_files/form_enhancements.js" type="text/javascript"></script>
+<script media="all" src="online_files/rico_corner.js" type="text/javascript"></script>
+<link href="online_files/stylesheet.css" media="all" rel="stylesheet" type="text/css">
+<!--[if IE]><link href="/stylesheets/active_scaffold/default/stylesheet-ie.css?1265837295" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+
+    <script src="online_files/datebox_engine.js" type="text/javascript"></script>
+<script src="online_files/calendar.js" type="text/javascript"></script>
+<script src="online_files/calendar-en.js" type="text/javascript"></script>
+<script src="online_files/calendar-setup.js" type="text/javascript"></script>
+<link href="online_files/dhtml_calendar.css" media="screen" rel="stylesheet" type="text/css">
+<link href="online_files/calendar-blue.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="online_files/live_validation.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="online_files/clarity.css" media="all" rel="stylesheet" type="text/css">
+    
+    <title>Clarity Services</title>
+  </head><body>
+
+    
+      <div class="shade-bolder" style="width: 100%; color: white; text-align: center;">YOU ARE LOOKING AT development</div>
+    
+    <div id="page" class="active-scaffold" style="width: 1200px; text-align: left; margin-left: auto; margin-right: auto;">
+      <div id="div_login" class="active-scaffold-header active-scaffold">
+        <div style="float: right; height: 20px;">
+          <p id="login_logout">
+            
+              Welcome, Gregory Hines. <a href="http://localhost:3000/logout">Logout</a>
+            
+          </p>
+        </div>
+        
+          <h2 style="float: left;"><a href="http://localhost:3000/">My Clarity</a></h2>
+        
+      </div>
+
+      
+        
+          <div class="shade-bolder" id="menu">
+            
+              <p style="padding-left: 5px;">
+  <a href="http://localhost:3000/">MyClarity</a>
+  <a href="http://localhost:3000/users/profile">Profile</a>
+  <a href="http://localhost:3000/inquiries">Reports</a>
+</p>
+            
+          </div>
+        
+        
+<div class="flash" id="flash">
+  
+  
+</div>
+
+      
+
+      <h2>Test XML Inquiry</h2>
+<p>Posts to /inquiries/create_from_xml</p>
+<p>Make any changes to individual fields, but don't change the tags themselves.</p>
+
+<form action="/inquiries/create_from_xml" id="theForm" method="post">  Raw XML: <textarea cols="90" id="inquiry" name="inquiry" rows="35">&lt;?xml
+version="1.0" encoding="UTF-8"?&gt;
+&lt;test-inquiry&gt;&lt;account-id&gt;200&lt;/account-id&gt;&lt;group-id&gt;100&lt;/group-id&gt;&lt;location-id&gt;300&lt;/location-id&gt;&lt;bank-account-number&gt;1234567890&lt;/bank-account-number&gt;&lt;bank-account-type&gt;CHECKING&lt;/bank-account-type&gt;&lt;bank-routing-number&gt;063113167&lt;/bank-routing-number&gt;&lt;cell-phone&gt;7203945891&lt;/cell-phone&gt;&lt;city&gt;Clearwater&lt;/city&gt;&lt;control-file-name&gt;Default&lt;/control-file-name&gt;&lt;control-file-version-number&gt;&lt;/control-file-version-number&gt;&lt;date-of-birth&gt;1971-05-04&lt;/date-of-birth&gt;&lt;date-of-next-payday&gt;2008-10-14&lt;/date-of-next-payday&gt;&lt;drivers-license-number&gt;2345-5678&lt;/drivers-license-number&gt;&lt;drivers-license-state&gt;FL&lt;/drivers-license-state&gt;&lt;email-address&gt;f.hardy@comcast.net&lt;/email-address&gt;&lt;employer-address&gt;123
+Anywhere
+St&lt;/employer-address&gt;&lt;employer-city&gt;Clearwater&lt;/employer-city&gt;&lt;employer-name&gt;&lt;/employer-name&gt;&lt;employer-state&gt;FL&lt;/employer-state&gt;&lt;first-name&gt;Frank&lt;/first-name&gt;&lt;home-phone&gt;7278445544&lt;/home-phone&gt;&lt;housing-status&gt;RENT&lt;/housing-status&gt;&lt;inquiry-purpose-type&gt;RP&lt;/inquiry-purpose-type&gt;&lt;inquiry-tradeline-type&gt;C1&lt;/inquiry-tradeline-type&gt;&lt;last-name&gt;Hardy&lt;/last-name&gt;&lt;middle-initial&gt;&lt;/middle-initial&gt;&lt;net-monthly-income&gt;1500&lt;/net-monthly-income&gt;&lt;occupation-type&gt;43&lt;/occupation-type&gt;&lt;origination-ip-address&gt;199.190.151.1&lt;/origination-ip-address&gt;&lt;password&gt;fuzzbucket3&lt;/password&gt;&lt;pay-frequency&gt;WEEKLY&lt;/pay-frequency&gt;&lt;paycheck-direct-deposit&gt;YES&lt;/paycheck-direct-deposit&gt;&lt;pc-digital-fingerprint&gt;2345432345&lt;/pc-digital-fingerprint&gt;&lt;pc-fingerprint-time-offset&gt;234234.234234&lt;/pc-fingerprint-time-offset&gt;&lt;reference-first-name&gt;Martha&lt;/reference-first-name&gt;&lt;reference-last-name&gt;Jones&lt;/reference-last-name&gt;&lt;reference-phone&gt;7272343456&lt;/reference-phone&gt;&lt;reference-relationship&gt;EMPLOYER&lt;/reference-relationship&gt;&lt;social-security-number&gt;555052345&lt;/social-security-number&gt;&lt;state&gt;FL&lt;/state&gt;&lt;street-address-1&gt;456
+Somewhere St&lt;/street-address-1&gt;&lt;street-address-2&gt;Unit
+2&lt;/street-address-2&gt;&lt;months-at-address&gt;12&lt;/months-at-address&gt;&lt;months-at-current-employer&gt;48&lt;/months-at-current-employer&gt;&lt;username&gt;gregoryhines&lt;/username&gt;&lt;work-fax-number&gt;7274445555&lt;/work-fax-number&gt;&lt;work-phone&gt;7274443333&lt;/work-phone&gt;&lt;work-phone-extension&gt;&lt;/work-phone-extension&gt;&lt;zip-code&gt;33755&lt;/zip-code&gt;&lt;pcpsession&gt;&lt;/pcpsession&gt;&lt;pcpvendor&gt;&lt;/pcpvendor&gt;&lt;pc_digital_fingerprint&gt;AE82114EF90900A21EE01226ED1E67166220D818&lt;/pc_digital_fingerprint&gt;
+&lt;bank-account-routing-number&gt;0000000000&lt;/bank-account-routing-number&gt;&lt;/test-inquiry&gt;
+</textarea>
+  
+    <p id="return_xml"><input checked="checked" id="format" name="format" value="xml" type="checkbox">Display result as XML instead of a pretty human-readable format.</p>
+  
+  <p><input name="commit" value="Post" type="submit"></p>
+</form>
+
+      <div id="footer" style="text-align: center; margin-top: 10px; padding-top: 10px;">
+        <hr>
+        <p id="footer_text" class="legal"><small>©2008 - 2010 Clarity Services Inc. All Rights Reserved.</small></p>
+      </div>
+    </div>
+
+  </body></html>

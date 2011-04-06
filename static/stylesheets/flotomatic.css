@@ -1,0 +1,21 @@
+div.flot_choice_label { font-variant: small-caps; font-weight: bold;}
+div.flot_canvas {width:1100px; height:300px}
+div.flot_overview {width:600px; height:50px}
+div.flotomatic_tooltip {
+    position: absolute;
+    display: none;
+    padding: 2px;
+    background-color: #565656;
+    color: white;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+div.chart_title{
+    color: #565656;
+    font-size: 19px;
+    font-weight: bold;
+    padding: 16px;
+    text-align: center;
+}

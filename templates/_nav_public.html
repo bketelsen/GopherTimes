@@ -1,0 +1,36 @@
+<ul id="nav-public" class="nav"> 
+  <li class="cap leftcap <%= request.request_uri.include?("/metrics") ? 'selected' : '' %>"></li>
+  <li class="capped leftcap verylongtext <%= request.request_uri.include?("/metrics") ? 'selected' : '' %>">
+    <a href="/marketing/metrics">Dashboard</a>
+  </li>
+  <li class="verylongtext <%= request.request_uri.include?("/products") ? 'selected' : '' %>">
+    <a href="/products">Products</a>
+    <ul class="popover">
+      <li><a href="/products#clear-warning">Clear Warning</a></li>
+      <li><a href="/products#clear-pc-fraud">Clear PC Fraud</a></li>
+      <li><a href="/products#clear-profile">Clear Profile</a></li>
+      <li><a href="/products#clear-check">Clear Check</a></li>
+      <li><a href="/products#clear-tradeline">Clear Tradeline</a></li>
+      <li><a href="/products#clear-id-fraud">Clear ID Fraud</a></li>
+      <li><a href="/products#clear-composite">Clear Composite</a></li>
+      <li><a href="/products#clear-bureau">Clear Bureau</a></li>
+      <li><a href="/products#clear-inquiry">Clear Inquiry</a></li>
+      <li><a href="/products#clear-id-attributes">Clear ID Attributes</a></li>
+      <li><a href="/products#clear-bank">Clear Bank</a></li>
+    </ul>
+  </li>
+  <li class="<%= request.request_uri.match("/(about|press)") ? 'selected' : '' %>">
+    <a href="/about">About</a>
+    <ul class="popover">
+      <li><a href="/marketing/press">Press Releases</a></li>
+    </ul>
+  </li>
+  <li class="longtext <%= request.request_uri.include?("/support") ? 'selected' : '' %>">
+    <a href="/support">Support</a>
+  </li>
+  <li class="longtext <%= request.request_uri.include?("/contact") ? 'selected' : '' %>">
+  	<a href="/contact">Contact</a>
+  </li>
+  <li class="capped rightcap"><%= link_to 'Login', WEB, :target => :blank %></li>
+  <li class="cap rightcap"></li>
+</ul>

@@ -1,0 +1,47 @@
+@charset "utf-8";
+body {
+	font-size: 12px;
+	font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+#container {
+	text-align: left;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+#gallery {
+	font-family: "Times New Roman", Times, serif;
+}
+
+#gallery .tabs {
+	text-align: center;
+}
+
+#gallery .tabs .top {
+	text-align: left;
+}
+
+#gallery .top .left {
+	font-size: 16px;
+	font-style: italic;
+}
+
+#gallery .top .right {
+	font-size: 13px;
+}
+
+#content .content-text {
+	font-size: 16px;
+}
+
+#footer .bottom {
+	text-align: center;
+}
