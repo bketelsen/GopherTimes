@@ -96,7 +96,7 @@
 	display: block; position: relative; overflow: hidden;
 	width: 90px; height: 9px; z-index: 48;
 	padding: 10px 10px 20px 5px; margin: 0 -5px;
-	background: url('/images/bg_nav_center.png') repeat-x;
+	background: url('/static/images/bg_nav_center.png') repeat-x;
 	color: #000333 !important; text-align: center;
 	text-decoration: none !important; text-transform: uppercase;
 }
@@ -118,8 +118,8 @@
 .nav > li.cap { width: 20px; height: 39px; }
 .nav > li.cap.selected { background-position: 0 -39px !important; }
 .nav > li.cap.hover { background-position: 0 -78px !important; }
-.nav > li.cap.leftcap { background: url('/images/bg_nav_left.png') no-repeat; }
-.nav > li.cap.rightcap { background: url('/images/bg_nav_right.png') no-repeat; }
+.nav > li.cap.leftcap { background: url('/static/images/bg_nav_left.png') no-repeat; }
+.nav > li.cap.rightcap { background: url('/static/images/bg_nav_right.png') no-repeat; }
 .nav > li.capped.leftcap > a { padding-left: 0; }
 .nav > li.capped.rightcap > a { padding-right: 0; }
 
@@ -322,7 +322,7 @@ ul.menuPage li.sep { height: 20px; }
 #zoom-photo .btn-list .zoom-in {
 	width: 91px;
 	height: 27px;
-	background: transparent url(/images/zoom.png) no-repeat 0 0;
+	background: transparent url(/static/images/zoom.png) no-repeat 0 0;
 }
 
 #zoom-photo .btn-list .zoom-in a {
@@ -335,7 +335,7 @@ ul.menuPage li.sep { height: 20px; }
 	display: none;
 	width: 91px;
 	height: 27px;
-	background: transparent url(/images/zoom.png) no-repeat 0 -27px;
+	background: transparent url(/static/images/zoom.png) no-repeat 0 -27px;
 	overflow: hidden;
 	position: relative;
 }
