@@ -19,7 +19,9 @@ func viewHandler(req *web.Request) {
 	path := req.Param.Get("path")
 	p, err := loadPage(path)
 	if err != nil {
-		// do something!
+		// respond with a simple error message for now
+		w := req.Respond(web.StatusInternalServerError)
+		println(w, "500 Internal Server Error")
 	}
 
 	renderTemplate(req, "public_base", p)
