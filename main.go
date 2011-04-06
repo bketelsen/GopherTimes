@@ -12,11 +12,12 @@ import (
 
 func loadPage(path string) (*Page, os.Error) {
 
-	mongo, err := mgo.Mongo("msg2")
+	mongo, err := mgo.Mongo("localhost")
 	if err != nil {
 		return nil, err
 	}
-
+	defer mongo.Close()
+	
 	c := mongo.DB("public_web").C("page")
 	page := &Page{}
 
@@ -59,12 +60,7 @@ func renderTemplate(req *web.Request, status int, tmpl string, p *Page) {
 
 func main() {
 
-	mongo, err := mgo.Mongo("msg2")
-	if err != nil {
-		panic(err)
-	}
 
-	c := mongo.DB("public_web").C("page")
 
 	// this is a bad regex, will only handle single word, not full path
 	const pathParam = "<path:.*>"
@@ -76,5 +72,4 @@ func main() {
 			Register("/<path:(.*)>", "GET", viewHandler))
 	server.Run(":8081", h)
 
-	defer mongo.Close()
 }
