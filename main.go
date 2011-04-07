@@ -45,7 +45,13 @@ func viewHandler(req *web.Request) {
 	if err != nil {
 		renderTemplate(req, web.StatusNotFound, "404", p)
 	} else {
-		renderTemplate(req, web.StatusOK, "public_base", p)
+		var templateName string
+		if len(p.Template) != 0 {
+			templateName = p.Template
+		} else {
+			templateName = "public_base"
+		}
+		renderTemplate(req, web.StatusOK, templateName, p)
 	}
 }
 
@@ -78,8 +84,7 @@ func renderTemplate(req *web.Request, status int, tmpl string, p *Page) {
 
 func main() {
 
-	// this is a bad regex, will only handle single word, not full path
-	const pathParam = "<path:.*>"
+
 
 	h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
 		web.NewRouter().
