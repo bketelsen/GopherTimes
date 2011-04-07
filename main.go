@@ -35,7 +35,7 @@ func loadPage(path string) (*Page, os.Error) {
 
 	err = c.Find(bson.M{"path": path}).One(page)
 	log.Println("Retrieving Page from Mongo")
-	cachePage(page)
+	go cachePage(page)
 	return page, err
 }
 
@@ -51,7 +51,7 @@ func viewHandler(req *web.Request) {
 
 var cachedPages = make(map[string]*CachedPage)
 var templates = make(map[string]*template.Template)
-var mongo *mgo.Session
+//var mongo *mgo.Session
 
 func init() {
 	for _, tmpl := range []string{"public_base", "404"} {
