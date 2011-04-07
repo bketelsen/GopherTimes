@@ -60,7 +60,7 @@ var templates = make(map[string]*template.Template)
 //var mongo *mgo.Session
 
 func init() {
-	for _, tmpl := range []string{"public_base", "404"} {
+	for _, tmpl := range []string{"index", "404"} {
 		templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
 	}
 
