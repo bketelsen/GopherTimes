@@ -2,15 +2,23 @@ package main
 
 import "strings"
 
+
 type Page struct {
 	Path    string
 	Title   string
+	Description string
+	Keywords		string
+	PageTitle	string
 	Content string
-	Products		[]Product
-	PressReleases	[]PressRelease
+}
+
+type CachedPage struct {
+	CachedPage			*Page			
+	CachedAt		int64
 }
 
 type Product struct {
+	Page
 	Name            string
 	Blurb           string
 	FullDescription string
@@ -18,6 +26,7 @@ type Product struct {
 }
 
 type PressRelease struct {
+	Page		
 	Date      string
 	Title     string
 	PathToPdf string

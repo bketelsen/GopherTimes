@@ -8,21 +8,34 @@ import (
 	"template"
 	"os"
 	"log"
+	"time"
 )
 
 func loadPage(path string) (*Page, os.Error) {
+	var page *Page
 
+	cachedPage, found := cachedPages[path]
+	if found {
+		t := time.Seconds()
+		log.Println("Cached at", cachedPage.CachedAt)
+		log.Println("Now it is", t)
+		if (t - cachedPage.CachedAt) < (60 * 10) { // cache for 10 minutes
+			log.Println("Returning page from cache")
+			return cachedPage.CachedPage, nil
+		}
+	}
 	mongo, err := mgo.Mongo("localhost")
 	if err != nil {
 		return nil, err
 	}
 	defer mongo.Close()
-	
+
 	c := mongo.DB("public_web").C("page")
-	page := &Page{}
+	page = &Page{}
 
 	err = c.Find(bson.M{"path": path}).One(page)
-
+	log.Println("Retrieving Page from Mongo")
+	cachePage(page)
 	return page, err
 }
 
@@ -36,6 +49,7 @@ func viewHandler(req *web.Request) {
 	}
 }
 
+var cachedPages = make(map[string]*CachedPage)
 var templates = make(map[string]*template.Template)
 var mongo *mgo.Session
 
@@ -44,6 +58,10 @@ func init() {
 		templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
 	}
 
+}
+
+func cachePage(p *Page) {
+	cachedPages[p.Path] = &CachedPage{CachedPage: p, CachedAt: time.Seconds()}
 }
 
 func renderTemplate(req *web.Request, status int, tmpl string, p *Page) {
@@ -59,8 +77,6 @@ func renderTemplate(req *web.Request, status int, tmpl string, p *Page) {
 }
 
 func main() {
-
-
 
 	// this is a bad regex, will only handle single word, not full path
 	const pathParam = "<path:.*>"
