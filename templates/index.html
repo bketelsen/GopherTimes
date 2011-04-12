@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>Gopher Times | {newsItem.Page.Title}</title>
+    <title>Gopher Times | Title Here </title>
 	<link rel="stylesheet" href="/static/css/stylesheet.css" type="text/css" media="screen" title="master_style" />
 	<!--[if IE 7]>
 		<link rel="stylesheet" href="/static/css/ie7.css" type="text/css" media="screen" title="iefix" charset="utf-8">
@@ -16,13 +16,12 @@
 		<ul id="nav">
 			<li class="right"><a href="#">Contact<span>Get in touch</span></a></li>
 			<li class="right"><a href="#">About<span>Who&rsquo;s us?</span></a></li>
-			<li class="first"><a href="#">Page One<span>All that&rsquo;s new</span></a></li>
-			<li><a href="#">Letterforms<span>Taking shape</span></a></li>
-			<li><a href="#">Typefaces<span>From a to z</span></a></li>
-			<li><a href="#">Layout<span>Fitting in</span></a></li>
-			<li><a href="#">Output<span>On the page</span></a></li>
-			<li><a href="#">Inspiration<span>Ooooh! Ahhhh!</span></a></li>
-			<li><a href="#">Reviews<span>Tough crowd</span></a></li>
+			<li class="first"><a href="/">Page One<span>All that&rsquo;s new</span></a></li>
+			<li><a href="#">Packages<span>Libraries</span></a></li>
+			<li><a href="#">Commands<span>Tools</span></a></li>
+			<li><a href="#">Blogs<span>Written words</span></a></li>
+			<li><a href="#">Releases<span>Fresh bits</span></a></li>
+			<li><a href="#">News<span>Find it here</span></a></li>
 		</ul>
 		<div id="header">
 			<h1>Gopher Times</h1>
@@ -31,14 +30,16 @@
 		
 		<div id="main">
 			<div id="feature" class="body_element">
-				<h2>{newsItem.Page.PageTitle}</h2>
-				<img src="{newsItem.ImagePath}" width="540" height="250" alt=""/>
-				<div class="dateline">{newsItem.PostedTimeEnglish} | {newsItem.NewsCategory}</div>
-				<p>{newsItem.FullDescription}</p>
-				<p class="attribution">{newsItem.ContributedBy}</p>
-				<div class="metadata">by {newsItem.Byline} |  <a href="http://www.gophertimes.com/{newsItem.Page.Permalink}">permalink</a></div>
-				<ul class="tags">{.repeated section newsItem.Tags} <li><a href="#">{@}</a></li>  {.end}
+				{.repeated section newsItem} 
+				<h2>{Page.Title}</h2>
+				<img src="{ImagePath}" width="540" height="250" alt=""/>
+				<div class="dateline">{PostedTimeEnglish} | {NewsCategory}</div>
+				<p>{FullDescription}</p>
+				<p class="attribution">{ContributedBy}</p>
+				<div class="metadata">by {Byline} |  <a href="http://www.gophertimes.com/{Page.Permalink}">permalink</a></div>
+				<ul class="tags">{.repeated section Tags} <li><a href="#">{@}</a></li>  {.end}
 				</ul>
+				{.end}
 			</div>
 			<ul id="recent_posts" class="body_element">
 				<li class="header">Recent Articles</li>
@@ -87,46 +88,7 @@
 			</ul>
 			<ul id="taglist" class="body_element">
 				<li class="header">Tags</li>
-				<li><a href="#">Advertising</a></li>
-				<li><a href="#">Blackletter</a></li>
-				<li><a href="#">Composition</a></li>
-				<li><a href="#">Digital Press</a></li>
-				<li><a href="#">Discussion</a></li>
-				<li><a href="#">Experimental</a></li>
-				<li><a href="#">Feature</a></li>
-				<li><a href="#">Font Editing</a></li>
-				<li><a href="#">Font Management</a></li>
-				<li><a href="#">Font</a></li>
-				<li><a href="#">Foundries</a></li>
-				<li><a href="#">Free Fonts</a></li>
-				<li><a href="#">Grid Design</a></li>
-				<li><a href="#">Historical Contexts</a></li>
-				<li><a href="#">In Concept</a></li>
-				<li><a href="#">In the Wild</a></li>
-				<li><a href="#">Interview</a></li>
-				<li><a href="#">Kerning</a></li>
-				<li><a href="#">Letterpress</a></li>
-				<li><a href="#">Linotype</a></li>
-				<li><a href="#">Logotype</a></li>
-				<li><a href="#">Modular Design</a></li>
-				<li><a href="#">Monotype</a></li>
-				<li><a href="#">New Design</a></li>
-				<li><a href="#">OpenType</a></li>
-				<li><a href="#">Ornaments</a></li>
-				<li><a href="#">Photopress</a></li>
-				<li><a href="#">Resources</a></li>
-				<li><a href="#">Revivals</a></li>
-				<li><a href="#">Sans-serif</a></li>
-				<li><a href="#">Script</a></li>
-				<li><a href="#">Serif</a></li>
-				<li><a href="#">Slab serif</a></li>
-				<li><a href="#">Software</a></li>
-				<li><a href="#">TrueType</a></li>
-				<li><a href="#">Tutorial</a></li>
-				<li><a href="#">Type Design</a></li>
-				<li><a href="#">Type History</a></li>
-				<li><a href="#">Typographs</a></li>
-				<li><a href="#">Web Typography</a></li>
+				{.repeated section tags} <li><a href="/tags/{@}">{@}</a></li>  {.end}
 			</ul>
 		</div>
 		

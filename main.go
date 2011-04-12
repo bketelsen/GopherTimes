@@ -46,6 +46,25 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
 	return item, err
 }
 
+func tagList()([]interface{}) {
+
+
+	mongo, err := mgo.Mongo("localhost")
+	if err != nil {
+		return nil
+	}
+	defer mongo.Close()
+	
+	var tags map[string]interface{}
+	
+	db := mongo.DB(*database)
+	err = db.Run(bson.D{{"distinct", "newsitems"}, {"key", "tags"}}, &tags)
+	if tags["values"] != nil {
+		return tags["values"].([]interface{})
+	} 
+	return nil
+}
+
 
 func loadNewsItems() ([]*NewsItem, os.Error) {
 	var item *NewsItem
@@ -69,7 +88,7 @@ func loadNewsItems() ([]*NewsItem, os.Error) {
 		i++
 	}
 
-	return items, err
+	return items[0:i], err
 }
 
 func viewHandler(req *web.Request) {
@@ -82,8 +101,10 @@ func viewHandler(req *web.Request) {
 	log.Println("Parm:", parm)
 	p, err := loadNewsItem(path)
 	list, err := loadNewsItems()
+	pArray := make([]*NewsItem,1)
+	pArray[0] = p
 	if err != nil {
-		renderTemplate(req, web.StatusNotFound, "404", p, list)
+		renderTemplate(req, web.StatusNotFound, "404", pArray, list)
 	} else {
 		var templateName string
 		if len(p.Template) != 0 {
@@ -91,17 +112,33 @@ func viewHandler(req *web.Request) {
 		} else {
 			templateName = "index"
 		}
-		renderTemplate(req, web.StatusOK, templateName, p, list)
+		renderTemplate(req, web.StatusOK, templateName, pArray, list)
 	}
 }
+
+func tagsHandler(req *web.Request) {
+	//tag := req.Param.Get("tag")
+	
+	//p, err := loadNewsItemsByTag(tag)
+	results, err := loadNewsItems()
+	p, err := loadNewsItems()
+	if err != nil {
+		renderTemplate(req, web.StatusNotFound, "404", results, p)
+	} else {
+		renderTemplate(req, web.StatusOK, "index", results, p)
+	}
+}
+
+
+
 func homeHandler(req *web.Request) {
 
 	p, err := loadNewsItems()
 
 	if err != nil {
-		renderTemplate(req, web.StatusNotFound, "404", p[0], p)
+		renderTemplate(req, web.StatusNotFound, "404", p, p)
 	} else {
-		renderTemplate(req, web.StatusOK, "index", p[0], p)
+		renderTemplate(req, web.StatusOK, "index", p, p)
 	}
 }
 
@@ -125,12 +162,14 @@ func removeCachedNewsItem(permalink string) {
 	cachedNewsItems[permalink] = nil, false
 }
 
-func renderTemplate(req *web.Request, status int, tmpl string, n *NewsItem, items []*NewsItem) {
+func renderTemplate(req *web.Request, status int, tmpl string, n []*NewsItem, items []*NewsItem) {
+	
 	err := templates[tmpl].Execute(
 		req.Respond(status),
 		map[string]interface{}{
 			"newsItem": n,
 			"newsItems": items,
+			"tags": tagList(),
 			"xsrf":     req.Param.Get("xsrf"),
 		})
 	if err != nil {
@@ -167,6 +206,7 @@ func main() {
 			Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")).
 			//			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
 			Register("/", "GET", homeHandler).
+			Register("/tags/<tag:(.*)>", "GET", tagsHandler).
 			Register("/<path:(.*)>", "GET", viewHandler))
 	server.Run(portString, h)
 
