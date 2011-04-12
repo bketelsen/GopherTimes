@@ -1,0 +1,29 @@
+<html>
+<head></head>
+<body>
+<h1>Editing {item.Page.Permalink}</h1>
+
+<form action="/edit/{item.Page.Permalink}" method="POST">
+Page Level:<BR>
+<div>Page:Permalink<input type="text" name="page-permalink" value="{item.Page.Permalink}"></input></div>	
+<div>Page:Description<textarea name="page-description" rows="20" cols="80">{item.Page.Description}</textarea></div>
+<div>Page:Title<input type="text" name="page-title" value="{item.Page.Title}"></input></div>
+<div>Page:PageTitle<input type="text" name="page-page-title" value="{item.Page.PageTitle}"></input></div>
+<div>Page:Keywords<input type="text" name="page-keywords" value="{item.Page.Keywords}"></input></div>
+<div>Page:Content<textarea name="page-description" rows="20" cols="80">{item.Page.Content}</textarea></div>
+<div>Page:Template<input type="text" name="page-template" value="{item.Page.Template}"></input></div>
+<BR><BR>
+News Item Level:<BR>
+<div>NewsItem:Byline<input type="text" name="newsitem-byline" value="{item.Byline}"></input></div>
+<div>NewsItem:Blurb<textarea name="newsitem-blurb" rows="20" cols="80">{item.Blurb}</textarea></div>
+<div>NewsItem:FullDescription<textarea name="newsitem-fulldescription" rows="20" cols="80">{item.FullDescription}</textarea></div>
+<div>NewsItem:ImagePath<input type="text" name="newsitem-imagepath" value="{item.ImagePath}"></input></div>
+<div>NewsItem:ExternalLink<input type="text" name="newsitem-externallink" value="{item.ExternalLink}"></input></div>
+<div>NewsItem:NewsCategory<input type="text" name="newsitem-newscategory" value="{item.NewsCategory}"></input></div>
+<div>NewsItem:ContributedBy<input type="text" name="newsitem-contributedby" value="{item.ContributedBy}"></input></div>
+
+<div><input type="submit" value="Save"></div>
+<input type="hidden" name="xsrf" value="{xsrf}">
+</form>
+</body>
+</html>

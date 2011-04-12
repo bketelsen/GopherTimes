@@ -41,7 +41,7 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
 	item = &NewsItem{}
 
 	err = c.Find(bson.M{"page.permalink": path}).One(item)
-	log.Println("Retrieving Page from Mongo")
+	log.Println("Retrieving Page from Mongo", item)
 	go cacheNewsItem(item)
 	return item, err
 }
@@ -67,7 +67,7 @@ func tagList()([]interface{}) {
 
 
 func loadNewsItems() ([]*NewsItem, os.Error) {
-	var item *NewsItem
+
 
 	mongo, err := mgo.Mongo("localhost")
 	if err != nil {
@@ -75,20 +75,30 @@ func loadNewsItems() ([]*NewsItem, os.Error) {
 	}
 	defer mongo.Close()
 	
-	items := make([]*NewsItem, 25)
+	items := make([]*NewsItem, 0)
 	
 	c := mongo.DB(*database).C("newsitems")
-	item = &NewsItem{}
+
 
 	iter, err := c.Find(bson.M{}).Iter()
-	i := 0
+	var i int = 0
 
-	for iter.Next(&item) != mgo.NotFound {
-		items[i] = item
+	for { 
+		item := &NewsItem{}
+		err = iter.Next(&item) 
+		if err != nil {
+			break
+		}
+		items = append(items, item)
+
 		i++
 	}
-
-	return items[0:i], err
+	
+	if err != mgo.NotFound {
+		return items[0:i], err
+	}
+	
+	return items, nil
 }
 
 func viewHandler(req *web.Request) {
@@ -101,18 +111,18 @@ func viewHandler(req *web.Request) {
 	log.Println("Parm:", parm)
 	p, err := loadNewsItem(path)
 	list, err := loadNewsItems()
-	pArray := make([]*NewsItem,1)
-	pArray[0] = p
+
 	if err != nil {
-		renderTemplate(req, web.StatusNotFound, "404", pArray, list)
+		renderSingleTemplate(req, web.StatusNotFound, "404", p, list)
 	} else {
-		var templateName string
+/*		var templateName string
 		if len(p.Template) != 0 {
 			templateName = p.Template
 		} else {
-			templateName = "index"
+			templateName = "article"
 		}
-		renderTemplate(req, web.StatusOK, templateName, pArray, list)
+*/
+		renderSingleTemplate(req, web.StatusOK, "article", p, list)
 	}
 }
 
@@ -123,22 +133,87 @@ func tagsHandler(req *web.Request) {
 	results, err := loadNewsItems()
 	p, err := loadNewsItems()
 	if err != nil {
-		renderTemplate(req, web.StatusNotFound, "404", results, p)
+		renderListTemplate(req, web.StatusNotFound, "404", results, p)
 	} else {
-		renderTemplate(req, web.StatusOK, "index", results, p)
+		renderListTemplate(req, web.StatusOK, "index", results, p)
 	}
 }
 
 
+func editHandler(req *web.Request){
+	path := req.Param.Get("path")
+	log.Println("Path:", path)
+	n, err := loadNewsItem(path)
+	if err != nil {
+		n = &NewsItem{Page:Page{Permalink: path, Title:"Title", Description:"Description",	Keywords:"Go, Golang, Go News,Golang news",PageTitle:"Page Title",Content:"Content",Template:"article"}, Tags:[]string{"golang","gophertimes"},ContributedBy: "Contributor", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
+	}
+	renderEditTemplate(req, "edit", n)
+	
+}
+
+func saveHandler(req *web.Request){
+	permalink := req.Param.Get("page-permalink")
+	title := req.Param.Get("page-title")
+	description := req.Param.Get("page-description")
+	pageTitle := req.Param.Get("page-page-title")
+	keywords := req.Param.Get("page-keywords")
+	content := req.Param.Get("page-content")
+	template := req.Param.Get("page-template")
+	
+	byline := req.Param.Get("newsitem-byline")
+	blurb := req.Param.Get("newsitem-blurb")
+	fulldescription := req.Param.Get("newsitem-fulldescription")
+	imagepath := req.Param.Get("newsitem-imagepath")
+	externallink := req.Param.Get("newsitem-externallink")
+	newscategory := req.Param.Get("newsitem-newscategory")
+	contributedby := req.Param.Get("newsitem-contributedby")
+	
+	
+	
+	n := &NewsItem{Page:Page{Permalink: permalink, 
+		Title:title, 
+		Description:description,	
+		Keywords:keywords,
+		PageTitle:pageTitle,
+		Content:content,
+		Template:template},
+		 Tags:[]string{"golang","gophertimes"},
+		ContributedBy: contributedby,
+		 Byline: byline, 
+		PostedTime: time.Seconds(),
+		 Blurb: blurb,
+		ImagePath: imagepath,
+		ExternalLink: externallink,
+		NewsCategory: newscategory,
+		 FullDescription: fulldescription}
+	
+	
+	mongo, err := mgo.Mongo("127.0.0.1")
+	if err != nil {
+	panic(err)
+	}
+
+	c := mongo.DB(*database).C("newsitems")
+
+	err = c.Insert(n)
+	if err != nil {
+	log.Println(err)
+	}
+	
+	req.Redirect(permalink, false)
+	
+}
 
 func homeHandler(req *web.Request) {
 
 	p, err := loadNewsItems()
+	
 
 	if err != nil {
-		renderTemplate(req, web.StatusNotFound, "404", p, p)
+		log.Println(err.String())
+		renderListTemplate(req, web.StatusNotFound, "404", p, p)
 	} else {
-		renderTemplate(req, web.StatusOK, "index", p, p)
+		renderListTemplate(req, web.StatusOK, "index", p, p)
 	}
 }
 
@@ -148,7 +223,7 @@ var templates = make(map[string]*template.Template)
 //var mongo *mgo.Session
 
 func init() {
-	for _, tmpl := range []string{"index", "404"} {
+	for _, tmpl := range []string{"index", "404", "article", "edit"} {
 		templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
 	}
 
@@ -162,12 +237,27 @@ func removeCachedNewsItem(permalink string) {
 	cachedNewsItems[permalink] = nil, false
 }
 
-func renderTemplate(req *web.Request, status int, tmpl string, n []*NewsItem, items []*NewsItem) {
+
+func renderEditTemplate(req *web.Request,  tmpl string, n *NewsItem) {
+	
+	err := templates[tmpl].Execute(
+		req.Respond(web.StatusOK),
+		map[string]interface{}{
+			"item": n,
+			"xsrf":     req.Param.Get("xsrf"),
+		})
+	if err != nil {
+		log.Println("error rendering", tmpl, err)
+	}
+}
+
+
+func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem, items []*NewsItem) {
 	
 	err := templates[tmpl].Execute(
 		req.Respond(status),
 		map[string]interface{}{
-			"newsItem": n,
+			"item": n,
 			"newsItems": items,
 			"tags": tagList(),
 			"xsrf":     req.Param.Get("xsrf"),
@@ -176,6 +266,24 @@ func renderTemplate(req *web.Request, status int, tmpl string, n []*NewsItem, it
 		log.Println("error rendering", tmpl, err)
 	}
 }
+
+func renderListTemplate(req *web.Request, status int, tmpl string, results []*NewsItem, items []*NewsItem) {
+	
+	err := templates[tmpl].Execute(
+		req.Respond(status),
+		map[string]interface{}{
+			"results": results,
+			"newsItems": items,
+			"tags": tagList(),
+			"xsrf":     req.Param.Get("xsrf"),
+		})
+	if err != nil {
+		log.Println("error rendering", tmpl, err)
+	}
+}
+
+
+
 
 func loadFirstRecord(){
 	//open mongo
@@ -186,7 +294,7 @@ func loadFirstRecord(){
 
 	c := mongo.DB(*database).C("newsitems")
 
-	err = c.Insert(&NewsItem{Page:Page{Permalink: "/news/gophertimes-born", Title:"Gopher Times", Description:"Gopher Times is born.",	Keywords:"Go, Golang, Go News,Golang news",PageTitle:"Gopher Times",Content:"",Template:"index"}, Tags:[]string{"golang","gophertimes"},ContributedBy: "Brian Ketelsen", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Gopher Times is Born!", FullDescription: "I'm hoping that Gopher Times will serve as a source of quality news for the Go community"})
+	err = c.Insert(&NewsItem{Page:Page{Permalink: "news/gophertimes-born", Title:"Gopher Times", Description:"Gopher Times is born.",	Keywords:"Go, Golang, Go News,Golang news",PageTitle:"Gopher Times",Content:"",Template:"index"}, Tags:[]string{"golang","gophertimes"},ContributedBy: "Brian Ketelsen", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Gopher Times is Born!", FullDescription: "I'm hoping that Gopher Times will serve as a source of quality news for the Go community"})
 	if err != nil {
 	log.Println(err)
 	}
@@ -207,6 +315,7 @@ func main() {
 			//			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
 			Register("/", "GET", homeHandler).
 			Register("/tags/<tag:(.*)>", "GET", tagsHandler).
+			Register("/edit/<path:(.*)>", "GET", editHandler, "POST", saveHandler).
 			Register("/<path:(.*)>", "GET", viewHandler))
 	server.Run(portString, h)
 
