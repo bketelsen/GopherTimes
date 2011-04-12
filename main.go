@@ -145,7 +145,7 @@ func loadFirstRecord(){
 	panic(err)
 	}
 
-	c := mongo.DB(*database).C("page")
+	c := mongo.DB(*database).C("newsitems")
 
 	err = c.Insert(&NewsItem{Page:Page{Permalink: "/news/gophertimes-born", Title:"Gopher Times", Description:"Gopher Times is born.",	Keywords:"Go, Golang, Go News,Golang news",PageTitle:"Gopher Times",Content:"",Template:"index"}, Tags:[]string{"golang","gophertimes"},ContributedBy: "Brian Ketelsen", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Gopher Times is Born!", FullDescription: "I'm hoping that Gopher Times will serve as a source of quality news for the Go community"})
 	if err != nil {
