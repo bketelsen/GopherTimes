@@ -10,10 +10,11 @@ import (
 	"log"
 	"time"
 	"flag"
+	"fmt"
 )
 
 //flag parse
-var ip *int = flag.Int("port", 8081, "http port for server")
+var port *int = flag.Int("port", 8081, "http port for server")
 var initdb *bool = flag.Bool("initdb", false, "create initial record in mongodb")
 var database *string = flag.String("database","public_web","mongo database name")
 
@@ -149,7 +150,12 @@ func loadFirstRecord(){
 
 func main() {
 	flag.Parse()
-	loadFirstRecord()
+		if *initdb {
+			loadFirstRecord()
+			return
+		}
+		var portString = fmt.Sprintf(":%d", *port)
+
 
 	h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
 		web.NewRouter().
@@ -157,6 +163,6 @@ func main() {
 			//			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
 			Register("/", "GET", homeHandler).
 			Register("/<path:(.*)>", "GET", viewHandler))
-	server.Run(":8081", h)
+	server.Run(portString, h)
 
 }
