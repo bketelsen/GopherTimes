@@ -9,19 +9,22 @@ import (
 	"os"
 	"log"
 	"time"
+	"flag"
 )
 
-func loadPage(path string) (*Page, os.Error) {
-	var page *Page
+//flag parse
 
-	cachedPage, found := cachedPages[path]
+func loadNewsItem(path string) (*NewsItem, os.Error) {
+	var item *NewsItem
+
+	cachedItem, found := cachedNewsItems[path]
 	if found {
 		t := time.Seconds()
-		log.Println("Cached at", cachedPage.CachedAt)
+		log.Println("Cached at", cachedItem.CachedAt)
 		log.Println("Now it is", t)
-		if (t - cachedPage.CachedAt) < (60 * 10) { // cache for 10 minutes
+		if (t - cachedItem.CachedAt) < (60 * 10) { // cache for 10 minutes
 			log.Println("Returning page from cache")
-			return cachedPage.CachedPage, nil
+			return cachedItem.NewsItem, nil
 		}
 	}
 	mongo, err := mgo.Mongo("localhost")
@@ -30,32 +33,76 @@ func loadPage(path string) (*Page, os.Error) {
 	}
 	defer mongo.Close()
 
-	c := mongo.DB("public_web").C("page")
-	page = &Page{}
+	c := mongo.DB("public_web").C("newsitems")
+	item = &NewsItem{}
 
-	err = c.Find(bson.M{"path": path}).One(page)
+	err = c.Find(bson.M{"page.permalink": path}).One(item)
 	log.Println("Retrieving Page from Mongo")
-	go cachePage(page)
-	return page, err
+	go cacheNewsItem(item)
+	return item, err
+}
+
+
+func loadNewsItems() ([]*NewsItem, os.Error) {
+	var item *NewsItem
+
+	mongo, err := mgo.Mongo("localhost")
+	if err != nil {
+		return nil, err
+	}
+	defer mongo.Close()
+	
+	items := make([]*NewsItem, 25)
+	
+	c := mongo.DB("public_web").C("newsitems")
+	item = &NewsItem{}
+
+	iter, err := c.Find(bson.M{}).Iter()
+	i := 0
+
+	for iter.Next(&item) != mgo.NotFound {
+		items[i] = item
+		i++
+	}
+
+	return items, err
 }
 
 func viewHandler(req *web.Request) {
 	path := req.Param.Get("path")
-	p, err := loadPage(path)
+	log.Println("Path:", path)
+	parm := req.Param.Get("invalidate")
+	if parm == "true" {
+		removeCachedNewsItem(path)
+	}
+	log.Println("Parm:", parm)
+	p, err := loadNewsItem(path)
+	list, err := loadNewsItems()
 	if err != nil {
-		renderTemplate(req, web.StatusNotFound, "404", p)
+		renderTemplate(req, web.StatusNotFound, "404", p, list)
 	} else {
 		var templateName string
 		if len(p.Template) != 0 {
 			templateName = p.Template
 		} else {
-			templateName = "public_base"
+			templateName = "index"
 		}
-		renderTemplate(req, web.StatusOK, templateName, p)
+		renderTemplate(req, web.StatusOK, templateName, p, list)
+	}
+}
+func homeHandler(req *web.Request) {
+
+	p, err := loadNewsItems()
+
+	if err != nil {
+		renderTemplate(req, web.StatusNotFound, "404", p[0], p)
+	} else {
+		renderTemplate(req, web.StatusOK, "index", p[0], p)
 	}
 }
 
-var cachedPages = make(map[string]*CachedPage)
+
+var cachedNewsItems = make(map[string]*CachedNewsItem)
 var templates = make(map[string]*template.Template)
 //var mongo *mgo.Session
 
@@ -66,30 +113,46 @@ func init() {
 
 }
 
-func cachePage(p *Page) {
-	cachedPages[p.Path] = &CachedPage{CachedPage: p, CachedAt: time.Seconds()}
+func cacheNewsItem(n *NewsItem) {
+	cachedNewsItems[n.Page.Permalink] = &CachedNewsItem{NewsItem: n, CachedAt: time.Seconds()}
 }
 
-func renderTemplate(req *web.Request, status int, tmpl string, p *Page) {
+func removeCachedNewsItem(permalink string) {
+	cachedNewsItems[permalink] = nil, false
+}
+
+func renderTemplate(req *web.Request, status int, tmpl string, n *NewsItem, items []*NewsItem) {
 	err := templates[tmpl].Execute(
 		req.Respond(status),
 		map[string]interface{}{
-			"page": p,
-			"xsrf": req.Param.Get("xsrf"),
+			"newsItem": n,
+			"newsItems": items,
+			"xsrf":     req.Param.Get("xsrf"),
 		})
 	if err != nil {
 		log.Println("error rendering", tmpl, err)
 	}
 }
 
+func loadFirstRecord(){
+	//open mongo
+	
+	//retrieve a record
+	
+	// if records exist, then move on
+	
+	// else insert a starter record
+}
+
 func main() {
 
-
+	loadFirstRecord()
 
 	h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
 		web.NewRouter().
 			Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")).
-			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
+			//			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
+			Register("/", "GET", homeHandler).
 			Register("/<path:(.*)>", "GET", viewHandler))
 	server.Run(":8081", h)
 

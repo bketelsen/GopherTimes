@@ -1,0 +1,233 @@
+/*
+ * TYPOGRAPHIC TEMPLATE
+ * 
+ * Typographic Times
+ * Evan Hensleigh/futuraprime design
+ * http://www.futuraprime.net/
+ *
+ * news-blog homepage layout
+ * version 1.0 
+ * 
+ * released under Creative Commons Share-Alike w/Attribution License
+ * http://creativecommons.org/licenses/by-sa/3.0/us/
+ *
+ * designed for Smashing Magazine typographic layout competition
+ *
+ */
+ 
+/* Typefaces */
+
+@font-face {
+	font-family: "Bergamo";
+	src: url(BergamoRegular.otf) format("opentype");
+}
+
+@font-face {
+	font-family: "Bergamo";
+	src: url(BergamoItalic.otf) format("opentype");
+	font-style: italic;
+}
+
+/* Reset */
+
+html, body, h1, h2, h3, h4, h5, h6, div, img, input, textbox, ul, ol, li, p {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+
+/* Basic Typography */
+
+h1 { font: bold 2em "Helvetica Neue", Helvetica, Arial, sans-serif; }
+h2 { font: bold 2em "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: -.05em; line-height: 1.4em;} /* 2.8 em */
+h3 { font: italic 1.5em Bergamo, Georgia, serif; line-height: 1em;
+margin-top: 1.25em; margin-bottom: 0.616em;} /* 2.8em */
+h4 { font: bold 1.25em "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.12em; color: #333; } /* 1.4 em */
+
+p {
+	font: .9em Georgia, serif;
+	line-height: 1.555em; /* 1.4 em */
+	margin: 0 0 1.555em;
+}
+
+a {	text-decoration: none; color: #900; }
+a:hover { text-decoration: underline; }
+
+abbr {
+	text-transform: lowercase;
+	font-variant: small-caps;
+}
+
+/* Layout */
+
+body {
+	background: #dee2e5;
+}
+
+#content {
+	width: 940px;
+	padding: .5em 10px;
+	margin: 0 auto 5em;
+}
+
+/* Header */
+
+#header { margin: 1.25em 0 .25em; color:  #161616; }
+#header h1 { text-indent: -.1em; font-size: 3.5em ; margin-bottom: -.15em;}
+#header h3 { text-transform: lowercase; margin: .1em 0 .3em; margin-left: 8.2em; font-size: 1.8em;}
+#header h3 span { color: #568000; }
+
+#nav {
+	list-style: none;
+	padding: .1em 10px;
+	width: 940px;
+	margin-left: -10px;
+}
+#nav li {
+	display: inline-block;
+	font: .95em Georgia, serif;
+	text-align: center;
+	color: #333;
+	padding: 0 10px;
+	vertical-align: top;
+}
+#nav li.right {
+	float: right;
+}
+#nav li span {
+	display: block;
+	margin-top: .1em;
+	font: italic 1em Bergamo, Georgia, serif;
+	text-transform: lowercase;
+}
+#nav li.first {
+	padding-left: 0;
+	border-right: 1px dotted #333;
+}
+#nav a { color: #333; }
+#nav a:hover { text-decoration: none; color: #900; }
+
+/* Body */
+
+/* the white content block */
+#main {
+	background-color: #fff;
+	border-top: .5em solid #161616;
+	border-bottom: 3px solid #161616;
+	width: 940px;
+	padding: .25em 10px .5em;
+	margin-left: -10px;
+}
+#main .body_element {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 16px;
+}
+#main .body_element:last-child { margin-right: 0; }
+
+/* feature story */
+#feature { width: 540px; }
+#feature img {
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+	padding: .25em 0;
+}
+#feature .dateline, #recent_posts .dateline {
+	font: .8em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	color: #666;
+	line-height: 1.75em; /* 1.4 em */
+}
+#feature p, #feature .dateline, #feature .metadata, #feature .tags { margin-left: 80px; }
+#feature .metadata, #recent_posts .metadata {
+	font: .8em Georgia, serif;
+	text-align: right;
+	line-height: 1.75em; /* 1.4 em */
+}
+#feature p.attribution { margin-bottom: 0; }
+#feature ul.tags {
+	text-align: right;
+	list-style: none;
+	font: italic 1em Bergamo, Georgia, serif;
+	line-height: 1.4em;
+}
+#feature ul.tags li { display: inline; margin: 0 0 0 .5em; text-transform: lowercase;}
+
+/* recent posts */
+#recent_posts {
+	width: 220px;
+	list-style: none;
+}
+#recent_posts .header, #taglist .header {
+	font: normal 1em Bergamo, Georgia, serif;
+	text-transform: uppercase;
+	text-indent: -.15em;
+	line-height: 1em;
+	border-bottom: 1px solid #ccc;
+	padding-top: .3em;
+	padding-bottom: .2em;
+	margin-top: .3em;
+	margin-bottom: .2em;
+}
+#recent_posts li { margin: .7em 0;}
+#recent_posts li:first-child { margin-bottom: -.5em; }
+#recent_posts li .metadata span { vertical-align: -.125em }
+#recent_posts li p { margin-bottom: 0;}
+
+/* taglist */
+#taglist {
+	width: 140px;
+	list-style: none;
+	font: italic 1em Bergamo, Georgia, serif;
+	text-transform: lowercase;
+}
+#taglist li { line-height: 1.4em; }
+
+/* Footer */
+
+#footer {
+	list-style: none;
+	font: italic 1em Bergamo, Georgia, serif;
+	margin-top: .5em;
+}
+#footer input[type="text"] {
+	border: 1px solid #c6c6c6;
+	padding: .5em;
+	font: .8em "Lucida Grande", "Lucida Sans", Helvetica, Arial, sans-serif;
+	color: #666;
+	width: 30em;
+}
+#footer li {
+	margin: .5em 0;
+	padding-left: 9em;
+	vertical-align: top;
+	overflow: hidden;
+	line-height: 1.4em;
+}
+#footer div.head {
+	font: .8em "Lucida Grande", "Lucida Sans", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: .3em;
+	color: #333;
+	width: 10em;
+	margin-left: -11em;
+	margin-right: 1em;
+	text-align: right;
+	float: left;
+}
+#footer div.head label {
+	line-height: 2.3em;
+}
+#footer .center {
+	text-align: center;
+	padding: 0;
+}
+#footer a {	color: #333; border-bottom: 1px dotted #999; }
+#footer a:hover { border-bottom: 1px solid #600; text-decoration: none; color: #600;}
+#footer span.num { font-family: Georgia, serif; font-size: .9em; color: #222;}
+
+/* Because IE8 doesn't handle multiple stylesheets */
+.ie8 #main .body_element {
+	margin-right: 10px;
+}

@@ -1,6 +1,6 @@
 include $(GOROOT)/src/Make.inc
 
-TARG=clarityservicesdotcom
+TARG=gophertimes
 GOFILES=\
 	main.go \
 	core.go \

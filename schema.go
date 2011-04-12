@@ -1,10 +1,10 @@
 package main
 
-import "strings"
+import "time"
 
 
 type Page struct {
-	Path        string
+	Permalink   string
 	Title       string
 	Description string
 	Keywords    string
@@ -13,60 +13,25 @@ type Page struct {
 	Template    string
 }
 
-type CachedPage struct {
-	CachedPage *Page
-	CachedAt   int64
+type CachedNewsItem struct {
+	NewsItem *NewsItem
+	CachedAt int64
 }
 
-type Product struct {
+type NewsItem struct {
 	Page
-	Name            string
+	Byline          string
+	PostedTime      int64
 	Blurb           string
 	FullDescription string
 	ImagePath       string
+	ExternalLink    string
+	NewsCategory         string
+	ContributedBy	string
+	Tags            []string
 }
 
-type PressRelease struct {
-	Page
-	Date      string
-	Title     string
-	PathToPdf string
-}
-
-func (p *Page) IsMetrics() string {
-	if strings.Contains(p.Path, "metrics") {
-		return "selected"
-	}
-	return ""
-}
-
-func (p *Page) IsContact() string {
-	if strings.Contains(p.Path, "contact") {
-		return "selected"
-	}
-	return ""
-}
-
-func (p *Page) IsSupport() string {
-	if strings.Contains(p.Path, "support") {
-		return "selected"
-	}
-	return ""
-}
-
-func (p *Page) IsAboutPress() string {
-	if strings.Contains(p.Path, "about") {
-		return "selected"
-	}
-	if strings.Contains(p.Path, "press") {
-		return "selected"
-	}
-	return ""
-}
-
-func (p *Page) IsProducts() string {
-	if strings.Contains(p.Path, "products") {
-		return "selected"
-	}
-	return ""
+func (n *NewsItem) PostedTimeEnglish() string {
+	localTime := time.SecondsToLocalTime(n.PostedTime)
+	return localTime.Format("_2 January 2006")
 }

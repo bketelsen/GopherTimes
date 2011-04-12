@@ -34,7 +34,7 @@ var coreTempl = template.MustParse(coreStr, template.FormatterMap{"": template.H
 const coreStr = `
 <html>
 <head>
-<title>Clarity Services, Inc.</title>
+<title>Gopher Times</title>
 </head>
 <body>
 <hr>

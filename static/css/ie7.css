@@ -1,0 +1,12 @@
+#nav li, #main .body_element {
+	display: inline;
+	zoom: 1;
+	}
+	
+#main .body_element {
+	margin-right: 13px;
+	}
+	
+#main ul li h4, #main ul li.header, #main #taglist li {
+	text-indent: -16px;
+	}
