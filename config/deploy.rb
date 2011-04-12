@@ -14,7 +14,7 @@ set :use_sudo, false
 
 set :scm, :git
 
-set :repository,  "git@github.com:bketelsen/gophertimes.git"
+set :repository,  "git@github.com:bketelsen/GopherTimes.git"
 set :executable, "gophertimes"
 
 
