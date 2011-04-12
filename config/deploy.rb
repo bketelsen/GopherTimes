@@ -57,6 +57,10 @@ namespace :deploy do
   task :setup do
      # clone
     run "git clone #{repository} #{deploy_to}"
+    run "goinstall github.com/garyburd/twister/web"
+    run "goinstall github.com/garyburd/twister/server"
+    run "goinstall launchpad.net/mgo"
+    run "goinstall launchpad.net/gobson/bson"
   end
 
   desc "compile and link the application"

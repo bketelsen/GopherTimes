@@ -13,6 +13,9 @@ import (
 )
 
 //flag parse
+var ip *int = flag.Int("port", 8081, "http port for server")
+var initdb *bool = flag.Bool("initdb", false, "create initial record in mongodb")
+var database *string = flag.String("database","public_web","mongo database name")
 
 func loadNewsItem(path string) (*NewsItem, os.Error) {
 	var item *NewsItem
@@ -33,7 +36,7 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
 	}
 	defer mongo.Close()
 
-	c := mongo.DB("public_web").C("newsitems")
+	c := mongo.DB(database).C("newsitems")
 	item = &NewsItem{}
 
 	err = c.Find(bson.M{"page.permalink": path}).One(item)
@@ -54,7 +57,7 @@ func loadNewsItems() ([]*NewsItem, os.Error) {
 	
 	items := make([]*NewsItem, 25)
 	
-	c := mongo.DB("public_web").C("newsitems")
+	c := mongo.DB(database).C("newsitems")
 	item = &NewsItem{}
 
 	iter, err := c.Find(bson.M{}).Iter()
@@ -145,7 +148,7 @@ func loadFirstRecord(){
 }
 
 func main() {
-
+	flag.Parse()
 	loadFirstRecord()
 
 	h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
