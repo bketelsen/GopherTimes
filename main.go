@@ -36,7 +36,7 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
 	}
 	defer mongo.Close()
 
-	c := mongo.DB(database).C("newsitems")
+	c := mongo.DB(*database).C("newsitems")
 	item = &NewsItem{}
 
 	err = c.Find(bson.M{"page.permalink": path}).One(item)
@@ -57,7 +57,7 @@ func loadNewsItems() ([]*NewsItem, os.Error) {
 	
 	items := make([]*NewsItem, 25)
 	
-	c := mongo.DB(database).C("newsitems")
+	c := mongo.DB(*database).C("newsitems")
 	item = &NewsItem{}
 
 	iter, err := c.Find(bson.M{}).Iter()
