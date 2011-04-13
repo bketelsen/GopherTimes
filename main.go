@@ -154,7 +154,7 @@ func editHandler(req *web.Request) {
     log.Println("Path:", path)
     n, err := loadNewsItem(path)
     if err != nil {
-        n = &NewsItem{Page: Page{Permalink: path, Title: "Title", Description: "Description", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Page Title", Content: "Content", Template: "article"}, Tags: []string{"golang", "gophertimes"}, ContributedBy: "Contributor", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
+        n = &NewsItem{Page: Page{Permalink: path, Title: "Title", Description: "Description", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Page Title", Content: "Content", Template: "article"}, Tags: []string{"golang", "gophertimes"}, ContributedBy: "", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
     }
     renderEditTemplate(req, "edit", n)
 
