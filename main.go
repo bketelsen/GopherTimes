@@ -136,6 +136,19 @@ func tagsHandler(req *web.Request) {
     }
 }
 
+func categoryHandler(req *web.Request) {
+    //tag := req.Param.Get("tag")
+
+    //p, err := loadNewsItemsByTag(tag)
+    results, err := loadNewsItems()
+    p, err := loadNewsItems()
+    if err != nil {
+        renderListTemplate(req, web.StatusNotFound, "404", results, p)
+    } else {
+        renderListTemplate(req, web.StatusOK, "index", results, p)
+    }
+}
+
 
 func editHandler(req *web.Request) {
     path := req.Param.Get("path")
@@ -304,6 +317,7 @@ func main() {
             Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")).
             //			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
             Register("/", "GET", homeHandler).
+          	Register("/category/<category:(.*)>", "GET", categoryHandler). 
             Register("/tags/<tag:(.*)>", "GET", tagsHandler).
             Register("/edit/<path:(.*)>", "GET", editHandler, "POST", saveHandler).
             Register("/<path:(.*)>", "GET", viewHandler))
