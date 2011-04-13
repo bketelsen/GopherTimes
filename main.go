@@ -24,10 +24,7 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
     cachedItem, found := cachedNewsItems[path]
     if found {
         t := time.Seconds()
-        log.Println("Cached at", cachedItem.CachedAt)
-        log.Println("Now it is", t)
         if (t - cachedItem.CachedAt) < (60 * 10) { // cache for 10 minutes
-            log.Println("Returning page from cache")
             return cachedItem.NewsItem, nil
         }
     }
@@ -41,7 +38,6 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
     item = &NewsItem{}
 
     err = c.Find(bson.M{"page.permalink": path}).One(item)
-    log.Println("Retrieving Page from Mongo")
     go cacheNewsItem(item)
     return item, err
 }
@@ -65,8 +61,18 @@ func tagList() []interface{} {
 }
 
 
-func loadNewsItems(search bson.M) ([]*NewsItem, os.Error) {
+func loadNewsItems(search bson.M, cacheString string) ([]*NewsItem, os.Error) {
 
+	
+ cachedItem, found := cachedNewsList[cacheString]
+    if found {
+        t := time.Seconds()
+        if (t - cachedItem.CachedAt) < (60 * 10) { // cache for 10 minutes
+            return cachedItem.NewsItems, nil
+        }
+    }
+
+log.Println("Retrieving List from Mongo", search)
     mongo, err := mgo.Mongo("localhost")
     if err != nil {
         return nil, err
@@ -94,7 +100,7 @@ func loadNewsItems(search bson.M) ([]*NewsItem, os.Error) {
     if err != mgo.NotFound {
         return items[0:i], err
     }
-
+	go cacheNewsItemList(items,cacheString)
     return items, nil
 }
 
@@ -107,7 +113,7 @@ func viewHandler(req *web.Request) {
     }
     log.Println("Parm:", parm)
     p, err := loadNewsItem(path)
-    list, err := loadNewsItems(bson.M{})
+    list, err := loadNewsItems(bson.M{},"all")
 
     if err != nil {
         renderSingleTemplate(req, web.StatusNotFound, "404", p, list)
@@ -126,8 +132,8 @@ func viewHandler(req *web.Request) {
 func tagsHandler(req *web.Request) {
     tag := req.Param.Get("tag")
 
-    results, err := loadNewsItems(bson.M{"tags":tag})
-    p, err := loadNewsItems(bson.M{})
+    results, err := loadNewsItems(bson.M{"tags":tag}, tag)
+    p, err := loadNewsItems(bson.M{}, "all")
     if err != nil {
         renderListTemplate(req, web.StatusNotFound, "404", results, p)
     } else {
@@ -139,8 +145,8 @@ func categoryHandler(req *web.Request) {
     category := req.Param.Get("category")
 
     //p, err := loadNewsItemsByTag(tag)
-    results, err := loadNewsItems(bson.M{"newscategory":category})
-    p, err := loadNewsItems(bson.M{})
+    results, err := loadNewsItems(bson.M{"newscategory":category}, category)
+    p, err := loadNewsItems(bson.M{}, "all")
     if err != nil {
         renderListTemplate(req, web.StatusNotFound, "404", results, p)
     } else {
@@ -212,7 +218,7 @@ func saveHandler(req *web.Request) {
 
 func homeHandler(req *web.Request) {
 
-    p, err := loadNewsItems(bson.M{})
+    p, err := loadNewsItems(bson.M{}, "all")
 
     if err != nil {
         log.Println(err.String())
@@ -224,6 +230,9 @@ func homeHandler(req *web.Request) {
 
 
 var cachedNewsItems = make(map[string]*CachedNewsItem)
+
+var cachedNewsList = make(map[string]*CachedNewsItemArray)
+
 var templates = make(map[string]*template.Template)
 //var mongo *mgo.Session
 
@@ -233,6 +242,16 @@ func init() {
     }
 
 }
+
+
+func cacheNewsItemList(n []*NewsItem, search string) {
+    cachedNewsList[search] = &CachedNewsItemArray{NewsItems: n, CachedAt: time.Seconds()}
+}
+
+func removeCachedNewsItemList(search string) {
+    cachedNewsList[search] = nil, false
+}
+
 
 func cacheNewsItem(n *NewsItem) {
     cachedNewsItems[n.Page.Permalink] = &CachedNewsItem{NewsItem: n, CachedAt: time.Seconds()}

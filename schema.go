@@ -18,6 +18,11 @@ type CachedNewsItem struct {
     CachedAt int64
 }
 
+type CachedNewsItemArray struct {
+	NewsItems []*NewsItem
+	CachedAt int64
+}
+
 type NewsItem struct {
     Page
     Byline          string
