@@ -201,6 +201,7 @@ func saveHandler(req *web.Request) {
         FullDescription: fulldescription}
 
     mongo, err := mgo.Mongo("127.0.0.1")
+	defer mongo.Close()
     if err != nil {
         panic(err)
     }
@@ -333,6 +334,7 @@ func renderListTemplate(req *web.Request, status int, tmpl string, results []*Ne
 func loadFirstRecord() {
     //open mongo
     mongo, err := mgo.Mongo("127.0.0.1")
+	defer mongo.Close()
     if err != nil {
         panic(err)
     }
