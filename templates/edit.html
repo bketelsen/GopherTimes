@@ -1,29 +1,71 @@
-<html>
-<head></head>
-<body>
-<h1>Editing {item.Page.Permalink}</h1>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Gopher Times | {item.Page.Title}</title>
+	<link rel="stylesheet" href="/static/css/stylesheet.css" type="text/css" media="screen" title="master_style" />
+	<!--[if IE 7]>
+		<link rel="stylesheet" href="/static/css/ie7.css" type="text/css" media="screen" title="iefix" charset="utf-8">
+	<![endif]-->
+</head>
 
-<form action="/edit/{item.Page.Permalink}" method="POST">
-Page Level:<BR>
-<div>Page:Permalink<input type="text" name="page-permalink" value="{item.Page.Permalink}"></input></div>	
-<div>Page:Description<textarea name="page-description" rows="20" cols="80">{item.Page.Description}</textarea></div>
-<div>Page:Title<input type="text" name="page-title" value="{item.Page.Title}"></input></div>
-<div>Page:PageTitle<input type="text" name="page-page-title" value="{item.Page.PageTitle}"></input></div>
-<div>Page:Keywords<input type="text" name="page-keywords" value="{item.Page.Keywords}"></input></div>
-<div>Page:Content<textarea name="page-description" rows="20" cols="80">{item.Page.Content}</textarea></div>
-<div>Page:Template<input type="text" name="page-template" value="{item.Page.Template}"></input></div>
-<BR><BR>
-News Item Level:<BR>
-<div>NewsItem:Byline<input type="text" name="newsitem-byline" value="{item.Byline}"></input></div>
-<div>NewsItem:Blurb<textarea name="newsitem-blurb" rows="20" cols="80">{item.Blurb}</textarea></div>
-<div>NewsItem:FullDescription<textarea name="newsitem-fulldescription" rows="20" cols="80">{item.FullDescription}</textarea></div>
-<div>NewsItem:ImagePath<input type="text" name="newsitem-imagepath" value="{item.ImagePath}"></input></div>
-<div>NewsItem:ExternalLink<input type="text" name="newsitem-externallink" value="{item.ExternalLink}"></input></div>
-<div>NewsItem:NewsCategory<input type="text" name="newsitem-newscategory" value="{item.NewsCategory}"></input></div>
-<div>NewsItem:ContributedBy<input type="text" name="newsitem-contributedby" value="{item.ContributedBy}"></input></div>
 
-<div><input type="submit" value="Save"></div>
-<input type="hidden" name="xsrf" value="{xsrf}">
-</form>
+<!--[if !IE 8]><!--> <body>  <!-- <![endif]-->
+<!--[if IE 8]> <body class="ie8"> <![endif]-->
+	<div id="content">
+		<ul id="nav">
+			<li class="right"><a href="/contact/us">Contact<span>Get in touch</span></a></li>
+			<li class="right"><a href="/about/us">About<span>Who&rsquo;s us?</span></a></li>
+			<li class="first"><a href="/">Page One<span>All that&rsquo;s new</span></a></li>
+			<li><a href="#">Packages<span>Libraries</span></a></li>
+			<li><a href="#">Commands<span>Tools</span></a></li>
+			<li><a href="#">Blogs<span>Written words</span></a></li>
+			<li><a href="#">Releases<span>Fresh bits</span></a></li>
+			<li><a href="#">News<span>Find it here</span></a></li>
+		</ul>
+		<div id="header">
+			<h1>Gopher Times</h1>
+			<h3>all the <span>#golang</span> news that matters</h3>
+		</div>
+		
+		<div id="main">
+			<div id="feature" class="body_element">
+
+				<form action="/edit/{item.Page.Permalink}" method="POST">
+				Page Level:<BR>
+				<div>Page:Permalink<input type="text" name="page-permalink" value="{item.Page.Permalink}"></input></div>	
+				<div>Page:Description<textarea name="page-description" rows="20" cols="80">{item.Page.Description}</textarea></div>
+				<div>Page:Title<input type="text" name="page-title" value="{item.Page.Title}"></input></div>
+				<div>Page:PageTitle<input type="text" name="page-page-title" value="{item.Page.PageTitle}"></input></div>
+				<div>Page:Keywords<input type="text" name="page-keywords" value="{item.Page.Keywords}"></input></div>
+				<div>Page:Content<textarea name="page-description" rows="20" cols="80">{item.Page.Content}</textarea></div>
+				<div>Page:Template<input type="text" name="page-template" value="{item.Page.Template}"></input></div>
+				<BR><BR>
+				News Item Level:<BR>
+				<div>NewsItem:Byline<input type="text" name="newsitem-byline" value="{item.Byline}"></input></div>
+				<div>NewsItem:Blurb<textarea name="newsitem-blurb" rows="20" cols="80">{item.Blurb}</textarea></div>
+				<div>NewsItem:FullDescription<textarea name="newsitem-fulldescription" rows="20" cols="80">{item.FullDescription}</textarea></div>
+				<div>NewsItem:ImagePath<input type="text" name="newsitem-imagepath" value="{item.ImagePath}"></input></div>
+				<div>NewsItem:ExternalLink<input type="text" name="newsitem-externallink" value="{item.ExternalLink}"></input></div>
+				<div>NewsItem:NewsCategory<input type="text" name="newsitem-newscategory" value="{item.NewsCategory}"></input></div>
+				<div>NewsItem:ContributedBy<input type="text" name="newsitem-contributedby" value="{item.ContributedBy}"></input></div>
+
+				<div><input type="submit" value="Save"></div>
+				<input type="hidden" name="xsrf" value="{xsrf}">
+				</form>
+
+			</div>
+
+		
+		</div>
+		
+		<ul id="footer">
+			<li><div class="head"><label for="search">Search</label></div><input type="text" name="search" value="" id="search" /></li>
+			<li><div class="head">Features</div><a href="#">Making Type Behave Online</a>, <a href="#">Five Hundred Years of Letterpress</a>, <a href="#">The New Foundries</a>, <a href="#">The Jump to Digital Type</a>, <a href="#">Heroes of Web Typography</a></li>
+			<li><div class="head">Follow</div><a href="#">Articles <abbr>RSS</abbr></a>, <a href="#">Features <abbr>RSS</abbr></a>, <a href="#">Comments <abbr>RSS</abbr></a>; <a href="http://twitter.com/gophertimes">Twitter</a></li>
+			<li><div class="head">Colophon</div>Page set in <a href="http://www.fontsquirrel.com/fonts/Bergamo-Std">Bergamo</a>, Helvetica, and Georgia. (If you're not using Safari 3.1+, Firefox 3.5+, or Opera 10+, you're not seeing it right.) Valid <a href="#">XHTML</a>, <a href="#">CSS</a> &mdash; always a beautiful thing. Powered by <a href="#">blog engine of choice</a>.</li>
+			<li class="center">Design &copy;<span class="num">2009</span> <a href="http://www.futuraprime.net/">futuraprime</a> design - <a href="http://creativecommons.org/licenses/by-sa/3.0/">a few rights reserved</a></li>
+		</ul>
+	</div>
 </body>
 </html>

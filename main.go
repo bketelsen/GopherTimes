@@ -41,7 +41,7 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
 	item = &NewsItem{}
 
 	err = c.Find(bson.M{"page.permalink": path}).One(item)
-	log.Println("Retrieving Page from Mongo", item)
+	log.Println("Retrieving Page from Mongo")
 	go cacheNewsItem(item)
 	return item, err
 }
