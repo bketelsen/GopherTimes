@@ -35,7 +35,7 @@
 				<img src="{item.ImagePath}" width="540" height="250" alt=""/>
 				<div class="dateline">{item.PostedTimeEnglish} | {item.NewsCategory}</div>
 				<p>{item.FullDescription}</p>
-				<p class="attribution">{item.ContributedBy}</p>
+				{.section ContributedBy}<p class="attribution">via {ContributedBy}</p> {.end}
 				<div class="metadata">by {item.Byline} |  <a href="{item.Page.Permalink}">permalink</a></div>
 				<ul class="tags">{.repeated section item.Tags} <li><a href="#">{@}</a></li>  {.end}
 				</ul>
