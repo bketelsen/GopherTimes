@@ -26,8 +26,8 @@ type NewsItem struct {
 	FullDescription string
 	ImagePath       string
 	ExternalLink    string
-	NewsCategory         string
-	ContributedBy	string
+	NewsCategory    string
+	ContributedBy   string
 	Tags            []string
 }
 
