@@ -277,12 +277,14 @@ func renderEditTemplate(req *web.Request, tmpl string, n *NewsItem) {
 
 
 func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem, items []*NewsItem) {
-
+	externals, _ := loadNewsItems(bson.M{"newscategory":"resources"},"externals")
+	
     err := templates[tmpl].Execute(
         req.Respond(status),
         map[string]interface{}{
             "item":      n,
             "newsItems": items,
+			"externals": externals,
             "tags":      tagList(),
             "xsrf":      req.Param.Get("xsrf"),
         })
@@ -292,12 +294,14 @@ func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem
 }
 
 func renderListTemplate(req *web.Request, status int, tmpl string, results []*NewsItem, items []*NewsItem) {
+	externals, _ := loadNewsItems(bson.M{"newscategory":"resources"},"externals")
 
     err := templates[tmpl].Execute(
         req.Respond(status),
         map[string]interface{}{
             "results":   results,
             "newsItems": items,
+			"externals": externals,
             "tags":      tagList(),
             "xsrf":      req.Param.Get("xsrf"),
         })

@@ -56,7 +56,12 @@
 			<ul id="taglist" class="body_element">
 				<li class="header">Tags</li>
 				{.repeated section tags} <li><a href="/tags/{@}">{@}</a></li>  {.end}
+				<li class="header">External</li>
+				{.repeated section externals} <li><a href="{ExternalLink}">{Page.Title}</a></li>  {.end}
+
 			</ul>
+
+
 		</div>
 		
 		<ul id="footer">
