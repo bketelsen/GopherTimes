@@ -36,7 +36,7 @@
 				<div class="dateline">{item.PostedTimeEnglish} | {item.NewsCategory}</div>
 				<p>{item.FullDescription}</p>
 				{.section ContributedBy}<p class="attribution">via {ContributedBy}</p> {.end}
-				<div class="metadata">by {item.Byline} |  <a href="{item.Page.Permalink}">permalink</a></div>
+				<div class="metadata">by {item.Byline} |  <a href="/{item.Page.Permalink}">permalink</a></div>
 				<ul class="tags">{.repeated section item.Tags} <li><a href="#">{@}</a></li>  {.end}
 				</ul>
 
