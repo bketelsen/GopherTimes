@@ -17,11 +17,11 @@
 			<li class="right"><a href="/contact/us">Contact<span>Get in touch</span></a></li>
 			<li class="right"><a href="/about/us">About<span>Who&rsquo;s us?</span></a></li>
 			<li class="first"><a href="/">Page One<span>All that&rsquo;s new</span></a></li>
-			<li><a href="#">Packages<span>Libraries</span></a></li>
-			<li><a href="#">Commands<span>Tools</span></a></li>
-			<li><a href="#">Blogs<span>Written words</span></a></li>
-			<li><a href="#">Releases<span>Fresh bits</span></a></li>
-			<li><a href="#">News<span>Find it here</span></a></li>
+			<li><a href="/category/packages">Packages<span>Libraries</span></a></li>
+			<li><a href="/category/commands">Commands<span>Tools</span></a></li>
+			<li><a href="/category/blogs">Blogs<span>Written words</span></a></li>
+			<li><a href="/category/releases">Releases<span>Fresh bits</span></a></li>
+			<li><a href="/category/news">News<span>Find it here</span></a></li>
 		</ul>
 		<div id="header">
 			<h1>Gopher Times</h1>
@@ -47,7 +47,13 @@
 				<div>NewsItem:FullDescription<textarea name="newsitem-fulldescription" rows="20" cols="80">{item.FullDescription}</textarea></div>
 				<div>NewsItem:ImagePath<input type="text" name="newsitem-imagepath" value="{item.ImagePath}"></input></div>
 				<div>NewsItem:ExternalLink<input type="text" name="newsitem-externallink" value="{item.ExternalLink}"></input></div>
-				<div>NewsItem:NewsCategory<input type="text" name="newsitem-newscategory" value="{item.NewsCategory}"></input></div>
+				<div>NewsItem:NewsCategory<br>
+					<input type="radio" name="newsitem-newscategory" value="packages" /> Packages<br />
+					<input type="radio" name="newsitem-newscategory" value="commands" /> Commands<br />	
+					<input type="radio" name="newsitem-newscategory" value="blogs" /> Blogs<br />
+					<input type="radio" name="newsitem-newscategory" value="releases" /> Releases<br />
+										<input type="radio" name="newsitem-newscategory" value="news" /> News
+					</div>
 				<div>NewsItem:ContributedBy<input type="text" name="newsitem-contributedby" value="{item.ContributedBy}"></input></div>
 
 				<div><input type="submit" value="Save"></div>
