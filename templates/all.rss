@@ -9,7 +9,7 @@
 	  <item>
 	    <title>{Page.Title}</title>
 	    <link>http://www.gophertimes.com/{Page.Permalink}</link>
-	    <description>{FullDescription}</description>
+	    <description>{EscapedFullDescription}</description>
 	  </item>
 	{.end}
 </channel>

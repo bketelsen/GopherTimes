@@ -1,6 +1,7 @@
 package main
 
 import "time"
+import "github.com/garyburd/twister/web"
 
 
 type Page struct {
@@ -39,4 +40,7 @@ type NewsItem struct {
 func (n *NewsItem) PostedTimeEnglish() string {
     localTime := time.SecondsToLocalTime(n.PostedTime)
     return localTime.Format("_2 January 2006")
+}
+func (n *NewsItem) EscapedFullDescription() string {
+	return web.HTMLEscapeString(n.FullDescription)
 }
