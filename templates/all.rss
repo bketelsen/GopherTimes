@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<rss version="2.0">
+
+<channel>
+  <title>Gopher Times</title>
+  <link>http://www.gophertimes.com</link>
+  <description>all the #golang news that matters</description>
+	{.repeated section results} 
+	  <item>
+	    <title>{Page.Title}</title>
+	    <link>http://www.gophertimes.com/{Page.Permalink}</link>
+	    <description>{FullDescription}</description>
+	  </item>
+	{.end}
+</channel>
+</rss>

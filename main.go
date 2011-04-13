@@ -228,6 +228,13 @@ func homeHandler(req *web.Request) {
     }
 }
 
+func rssHandler(req *web.Request) {
+  	feed := req.Param.Get("feed")
+    p, _ := loadNewsItems(bson.M{}, "all")
+	log.Println("loaded news items", p)
+	renderRssTemplate(req, web.StatusOK, feed, p)
+
+}
 
 var cachedNewsItems = make(map[string]*CachedNewsItem)
 
@@ -240,7 +247,7 @@ func init() {
     for _, tmpl := range []string{"index", "404", "article", "edit"} {
         templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
     }
-
+	templates["all.rss"] = template.MustParseFile("templates/all.rss", nil)
 }
 
 
@@ -280,7 +287,7 @@ func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem
 	externals, _ := loadNewsItems(bson.M{"newscategory":"resources"},"externals")
 	
     err := templates[tmpl].Execute(
-        req.Respond(status),
+        req.Respond(status,  web.HeaderContentType, "application/xml"),
         map[string]interface{}{
             "item":      n,
             "newsItems": items,
@@ -293,6 +300,18 @@ func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem
     }
 }
 
+
+func renderRssTemplate(req *web.Request, status int, tmpl string, results []*NewsItem) {
+	fmt.Println(tmpl, "rendering")
+    err := templates[tmpl].Execute(
+        req.Respond(status),
+        map[string]interface{}{
+            "results":   results,
+        })
+    if err != nil {
+        log.Println("error rendering", tmpl, err)
+    }
+}
 func renderListTemplate(req *web.Request, status int, tmpl string, results []*NewsItem, items []*NewsItem) {
 	externals, _ := loadNewsItems(bson.M{"newscategory":"resources"},"externals")
 
@@ -338,6 +357,7 @@ func main() {
         web.NewRouter().
             Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")).
             //			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
+         	Register("/rss/<feed:(.*)>", "GET", rssHandler). 
             Register("/", "GET", homeHandler).
           	Register("/category/<category:(.*)>", "GET", categoryHandler). 
             Register("/tags/<tag:(.*)>", "GET", tagsHandler).
