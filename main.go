@@ -65,7 +65,7 @@ func tagList() []interface{} {
 }
 
 
-func loadNewsItems() ([]*NewsItem, os.Error) {
+func loadNewsItems(search bson.M) ([]*NewsItem, os.Error) {
 
     mongo, err := mgo.Mongo("localhost")
     if err != nil {
@@ -77,7 +77,7 @@ func loadNewsItems() ([]*NewsItem, os.Error) {
 
     c := mongo.DB(*database).C("newsitems")
 
-    iter, err := c.Find(bson.M{}).Iter()
+    iter, err := c.Find(search).Sort(bson.M{"postedtime": -1}).Iter()
     var i int = 0
 
     for {
@@ -107,7 +107,7 @@ func viewHandler(req *web.Request) {
     }
     log.Println("Parm:", parm)
     p, err := loadNewsItem(path)
-    list, err := loadNewsItems()
+    list, err := loadNewsItems(bson.M{})
 
     if err != nil {
         renderSingleTemplate(req, web.StatusNotFound, "404", p, list)
@@ -124,11 +124,10 @@ func viewHandler(req *web.Request) {
 }
 
 func tagsHandler(req *web.Request) {
-    //tag := req.Param.Get("tag")
+    tag := req.Param.Get("tag")
 
-    //p, err := loadNewsItemsByTag(tag)
-    results, err := loadNewsItems()
-    p, err := loadNewsItems()
+    results, err := loadNewsItems(bson.M{"tags":tag})
+    p, err := loadNewsItems(bson.M{})
     if err != nil {
         renderListTemplate(req, web.StatusNotFound, "404", results, p)
     } else {
@@ -137,11 +136,11 @@ func tagsHandler(req *web.Request) {
 }
 
 func categoryHandler(req *web.Request) {
-    //tag := req.Param.Get("tag")
+    category := req.Param.Get("category")
 
     //p, err := loadNewsItemsByTag(tag)
-    results, err := loadNewsItems()
-    p, err := loadNewsItems()
+    results, err := loadNewsItems(bson.M{"newscategory":category})
+    p, err := loadNewsItems(bson.M{})
     if err != nil {
         renderListTemplate(req, web.StatusNotFound, "404", results, p)
     } else {
@@ -213,13 +212,13 @@ func saveHandler(req *web.Request) {
 
 func homeHandler(req *web.Request) {
 
-    p, err := loadNewsItems()
+    p, err := loadNewsItems(bson.M{})
 
     if err != nil {
         log.Println(err.String())
-        renderListTemplate(req, web.StatusNotFound, "404", p, p)
+        renderListTemplate(req, web.StatusNotFound, "404", p[0:1], p)
     } else {
-        renderListTemplate(req, web.StatusOK, "index", p, p)
+        renderListTemplate(req, web.StatusOK, "index", p[0:1], p[1:])
     }
 }
 
@@ -298,7 +297,7 @@ func loadFirstRecord() {
 
     c := mongo.DB(*database).C("newsitems")
 
-    err = c.Insert(&NewsItem{Page: Page{Permalink: "news/gophertimes-born", Title: "Gopher Times", Description: "Gopher Times is born.", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Gopher Times", Content: "", Template: "index"}, Tags: []string{"golang", "gophertimes"}, ContributedBy: "Brian Ketelsen", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Gopher Times is Born!", FullDescription: "I'm hoping that Gopher Times will serve as a source of quality news for the Go community"})
+    err = c.Insert(&NewsItem{Page: Page{Permalink: "news/gophertimes-born", Title: "Gopher Times", Description: "Gopher Times is born.", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Gopher Times", Content: "", Template: "index"}, NewsCategory:"news", Tags: []string{"golang", "gophertimes"}, ContributedBy: "Brian Ketelsen", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Gopher Times is Born!", FullDescription: "I'm hoping that Gopher Times will serve as a source of quality news for the Go community"})
     if err != nil {
         log.Println(err)
     }

@@ -43,48 +43,14 @@
 			</div>
 			<ul id="recent_posts" class="body_element">
 				<li class="header">Recent Articles</li>
+				{.repeated section newsItems} 
 				<li>
-					<h4>The Future of Type Design</h4>
-					<div class="dateline">24 June 2009 | Typefaces</div>
-					<p>The eponymous design wizards at Hoefler &amp; Frere-Jones discuss the past and future possibilities of type design.</p>
-					<div class="metadata"><a href="#">3 comments</a> | <a href="http://www.typography.com/ask/showBlog.php?blogID=192">visit <span>&rarr;</span></a></div>
+					<h4>{Page.Title}</h4>
+					<div class="dateline">{PostedTimeEnglish} | {NewsCategory}</div>
+					<p>{Blurb}</p>
+					<div class="metadata"><a href="/{Page.Permalink}">visit <span>&rarr;</span></a></div>
 				</li>
-				<li>
-					<h4>New Type Art from Herb Lubalin</h4>
-					<div class="dateline">14 June 2009 | Inspiration</div>
-					<p>Recently discovered prints from the basement of the <em>U&amp;lc</em> offices will thrill and amaze you!</p>
-					<div class="metadata"><a href="#">15 comments</a> | <a href="#">read more <span>&rarr;</span></a></div>
-				</li>
-				<li>
-					<h4>Lovely Cuts</h4>
-					<div class="dateline">18 May 2009 | Letterforms</div>
-					<p>We survey type designers on their favorite letters to cut. The consensus choice? Read on to find out!</p>
-					<div class="metadata"><a href="#">7 comments</a> | <a href="#">read more <span>&rarr;</span></a></div>
-				</li>
-				<li>
-					<h4>Flames of Love</h4>
-					<div class="dateline">10 May 2009 | Inspiration</div>
-					<p>Seb Lester's latest typograph print, "Flames of Love Burning Deep In My Heart for Eternity" is a work of art in every sense of the word.</p>
-					<div class="metadata"><a href="#">22 comments</a> | <a href="#">read more <span>&rarr;</span></a></div>
-				</li>
-				<li>
-					<h4>Revisiting the Grid</h4>
-					<div class="dateline">1 May 2009 | Layout</div>
-					<p>Grid design is high fashion in design today. Here are five things you should keep in mind when putting together your grid layouts.</p>
-					<div class="metadata"><a href="#">15 comments</a> | <a href="#">read more <span>&rarr;</span></a></div>
-				</li>
-				<li>
-					<h4>Making Type Behave Online</h4>
-					<div class="dateline">21 April 2009 | Output</div>
-					<p>Typography on the web is never easy. Here's our helpful guide to making your typography sing with nothing more than XHTML and CSS 3.</p>
-					<div class="metadata"><a href="#">32 comments</a> | <a href="#">read more <span>&rarr;</span></a></div>
-				</li>
-				<li>
-					<h4>Beautiful Letterpress</h4>
-					<div class="dateline">3 April 2009 | Output</div>
-					<p>Well-made letterpress is breathtaking to behold. The folks at <a href="http://www.boxcarpress.com/">Boxcar Press</a> are modern masters of it. Read our interview.</p>
-					<div class="metadata"><a href="#">12 comments</a> | <a href="#">read more <span>&rarr;</span></a></div>
-				</li>
+				{.end}
 			</ul>
 			<ul id="taglist" class="body_element">
 				<li class="header">Tags</li>
@@ -94,7 +60,6 @@
 		
 		<ul id="footer">
 			<li><div class="head"><label for="search">Search</label></div><input type="text" name="search" value="" id="search" /></li>
-			<li><div class="head">Features</div><a href="#">Making Type Behave Online</a>, <a href="#">Five Hundred Years of Letterpress</a>, <a href="#">The New Foundries</a>, <a href="#">The Jump to Digital Type</a>, <a href="#">Heroes of Web Typography</a></li>
 			<li><div class="head">Follow</div><a href="http://twitter.com/gophertimes">Twitter</a></li>
 			<li><div class="head">Colophon</div>Page set in <a href="http://www.fontsquirrel.com/fonts/Bergamo-Std">Bergamo</a>, Helvetica, and Georgia.  Powered by <a href="https://github.com/garyburd/twister/">Twister</a> running on <a href="http://golang.org">Go</a> hosted at <a href="https://www.github.com/bketelsen/GopherTimes">GitHub</a>.</li>
 						<li class="center">Contents &copy;<span class="num">2011</span> <a href="http://www.brianketelsen.com/">Brian Ketelsen, LLC</a> all rights reserved.</li>
