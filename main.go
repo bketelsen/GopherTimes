@@ -212,7 +212,7 @@ func saveHandler(req *web.Request) {
         log.Println(err)
     }
 
-    req.Redirect(permalink, false)
+    req.Redirect("/" + permalink, false)
 
 }
 
