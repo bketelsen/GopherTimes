@@ -27,7 +27,7 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
         log.Println("Cached at", cachedItem.CachedAt)
         log.Println("Now it is", t)
         if (t - cachedItem.CachedAt) < (60 * 10) { // cache for 10 minutes
-            	log.Println("Returning page from cache")
+            log.Println("Returning page from cache")
             return cachedItem.NewsItem, nil
         }
     }
