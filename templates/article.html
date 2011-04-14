@@ -36,8 +36,8 @@
 				<!-- <img src="{ImagePath}" width="540" height="250" alt=""/> -->
 				<div class="dateline">{item.PostedTimeEnglish} | {item.NewsCategory}</div>
 				<p>{item.FullDescription}</p>
-				{.section ContributedBy}<p class="attribution">via {ContributedBy}</p> {.end}
-				{.section ExternalLink}<p class="attribution"><a href="{ExternalLink}">original<span>&rarr;</span></a></p> {.end}
+				{.section item.ContributedBy}<p class="attribution">via {item.ContributedBy}</p> {.end}
+				{.section item.ExternalLink}<p class="attribution"><a href="{item.ExternalLink}">original<span>&rarr;</span></a></p> {.end}
 				<div class="metadata">by {item.Byline} |  <a href="/{item.Page.Permalink}">permalink</a></div>
 				<ul class="tags">{.repeated section item.Tags} <li><a href="#">{@}</a></li>  {.end}
 				</ul>
