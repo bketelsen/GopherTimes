@@ -38,7 +38,12 @@
 				<p>{FullDescription}</p>
 				{.section ContributedBy}<p class="attribution">via {ContributedBy}</p> {.end}
 				{.section ExternalLink}<p class="attribution"><a href="{ExternalLink}">original<span>&rarr;</span></a></p> {.end}
-				<div class="metadata">by {Byline} | <a href="/{Page.Permalink}">permalink</a></div>
+				<div class="metadata">by {Byline} | <script>
+				var idcomments_acct = '7dbf25b6bbac467e345712f6b66f1ef7';
+				var idcomments_post_id = '{Page.Permalink}';
+				var idcomments_post_url = 'http://www.gophertimes.com/{Page.Permalink}';
+				</script>
+				<script type="text/javascript" src="http://www.intensedebate.com/js/genericLinkWrapperV2.js"></script> | <a href="/{Page.Permalink}">permalink</a></div>
 				<ul class="tags">{.repeated section Tags} <li><a href="#">{@}</a></li>  {.end}
 				</ul>
 				{.end}
@@ -74,6 +79,18 @@
 			<li class="center">Design &copy;<span class="num">2009</span> <a href="http://www.futuraprime.net/">futuraprime</a> design - <a href="http://creativecommons.org/licenses/by-sa/3.0/">a few rights reserved</a></li>
 		</ul>
 	</div>
+	<script type="text/javascript">
 
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-22696892-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {.meta-left}
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  {.meta-right})();
+
+	</script>
 </body>
 </html>
