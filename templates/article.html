@@ -31,7 +31,6 @@
 		
 		<div id="main">
 			<div id="feature" class="body_element">
-
 				<h2>{item.Page.Title}</h2>
 				<!-- <img src="{ImagePath}" width="540" height="250" alt=""/> -->
 				<div class="dateline">{item.PostedTimeEnglish} | {item.NewsCategory}</div>
@@ -41,6 +40,13 @@
 				<div class="metadata">by {item.Byline} | <a href="/{item.Page.Permalink}">permalink</a></div>
 				<ul class="tags">{.repeated section item.Tags} <li><a href="#">{@}</a></li>  {.end}
 				</ul>
+				<script>
+				var idcomments_acct = '7dbf25b6bbac467e345712f6b66f1ef7';
+				var idcomments_post_id = '{item.Page.Permalink}';
+				var idcomments_post_url = 'http://www.gophertimes.com/{item.Page.Permalink}';
+				</script>
+				<span id="IDCommentsPostTitle" style="display:none"></span>
+				<script type='text/javascript' src='http://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
 			</div>
 			<ul id="recent_posts" class="body_element">
 				<li class="header">Recent Articles</li>
@@ -56,6 +62,9 @@
 			<ul id="taglist" class="body_element">
 				<li class="header">Tags</li>
 				{.repeated section tags} <li><a href="/tags/{@}">{@}</a></li>  {.end}
+				<li class="header">External</li>
+				{.repeated section externals} <li><a href="{ExternalLink}">{Page.Title}</a></li>  {.end}
+				
 			</ul>
 		</div>
 		
