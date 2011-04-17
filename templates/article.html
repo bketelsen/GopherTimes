@@ -38,21 +38,10 @@
 				<p>{item.FullDescription}</p>
 				{.section item.ContributedBy}<p class="attribution">via {item.ContributedBy}</p> {.end}
 				{.section item.ExternalLink}<p class="attribution"><a href="{item.ExternalLink}">original<span>&rarr;</span></a></p> {.end}
-				<div class="metadata">by {item.Byline} | <script>
-				var idcomments_acct = '7dbf25b6bbac467e345712f6b66f1ef7';
-				var idcomments_post_id = '{item.Page.Permalink}';
-				var idcomments_post_url = 'http://www.gophertimes.com/{item.Page.Permalink}';
-				</script>
-				<script type="text/javascript" src="http://www.intensedebate.com/js/genericLinkWrapperV2.js"></script> |  <a href="/{item.Page.Permalink}">permalink</a></div>
+				<div class="metadata">by {item.Byline} | <a href="/{item.Page.Permalink}">permalink</a></div>
 				<ul class="tags">{.repeated section item.Tags} <li><a href="#">{@}</a></li>  {.end}
 				</ul>
-				<script>
-				var idcomments_acct = '7dbf25b6bbac467e345712f6b66f1ef7';
-				var idcomments_post_id= '{item.Page.Permalink}';
-				var idcomments_post_url = 'http://www.gophertimes.com/{item.Page.Permalink}';
-				</script>
-				<span id="IDCommentsPostTitle" style="display:none"></span>
-				<script type='text/javascript' src='http://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
+
 
 			</div>
 			<ul id="recent_posts" class="body_element">
