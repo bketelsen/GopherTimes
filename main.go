@@ -63,8 +63,7 @@ func tagList() []interface{} {
 
 func loadNewsItems(search bson.M, cacheString string) ([]*NewsItem, os.Error) {
 
-	
- cachedItem, found := cachedNewsList[cacheString]
+    cachedItem, found := cachedNewsList[cacheString]
     if found {
         t := time.Seconds()
         if (t - cachedItem.CachedAt) < (60 * 10) { // cache for 10 minutes
@@ -72,7 +71,7 @@ func loadNewsItems(search bson.M, cacheString string) ([]*NewsItem, os.Error) {
         }
     }
 
-log.Println("Retrieving List from Mongo", search)
+    log.Println("Retrieving List from Mongo", search)
     mongo, err := mgo.Mongo("localhost")
     if err != nil {
         return nil, err
@@ -100,7 +99,7 @@ log.Println("Retrieving List from Mongo", search)
     if err != mgo.NotFound {
         return items[0:i], err
     }
-	go cacheNewsItemList(items,cacheString)
+    go cacheNewsItemList(items, cacheString)
     return items, nil
 }
 
@@ -113,7 +112,7 @@ func viewHandler(req *web.Request) {
     }
     log.Println("Parm:", parm)
     p, err := loadNewsItem(path)
-    list, err := loadNewsItems(bson.M{},"all")
+    list, err := loadNewsItems(bson.M{}, "all")
 
     if err != nil {
         renderSingleTemplate(req, web.StatusNotFound, "404", p, list)
@@ -132,7 +131,7 @@ func viewHandler(req *web.Request) {
 func tagsHandler(req *web.Request) {
     tag := req.Param.Get("tag")
 
-    results, err := loadNewsItems(bson.M{"tags":tag}, tag)
+    results, err := loadNewsItems(bson.M{"tags": tag}, tag)
     p, err := loadNewsItems(bson.M{}, "all")
     if err != nil {
         renderListTemplate(req, web.StatusNotFound, "404", results, p)
@@ -145,7 +144,7 @@ func categoryHandler(req *web.Request) {
     category := req.Param.Get("category")
 
     //p, err := loadNewsItemsByTag(tag)
-    results, err := loadNewsItems(bson.M{"newscategory":category}, category)
+    results, err := loadNewsItems(bson.M{"newscategory": category}, category)
     p, err := loadNewsItems(bson.M{}, "all")
     if err != nil {
         renderListTemplate(req, web.StatusNotFound, "404", results, p)
@@ -201,7 +200,7 @@ func saveHandler(req *web.Request) {
         FullDescription: fulldescription}
 
     mongo, err := mgo.Mongo("127.0.0.1")
-	defer mongo.Close()
+    defer mongo.Close()
     if err != nil {
         panic(err)
     }
@@ -213,7 +212,7 @@ func saveHandler(req *web.Request) {
         log.Println(err)
     }
 
-    req.Redirect("/" + permalink, false)
+    req.Redirect("/"+permalink, false)
 
 }
 
@@ -230,10 +229,10 @@ func homeHandler(req *web.Request) {
 }
 
 func rssHandler(req *web.Request) {
-  	feed := req.Param.Get("feed")
+    feed := req.Param.Get("feed")
     p, _ := loadNewsItems(bson.M{}, "all")
-	log.Println("loaded news items", p)
-	renderRssTemplate(req, web.StatusOK, feed, p)
+    log.Println("loaded news items", p)
+    renderRssTemplate(req, web.StatusOK, feed, p)
 
 }
 
@@ -248,7 +247,7 @@ func init() {
     for _, tmpl := range []string{"index", "404", "article", "edit"} {
         templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
     }
-	templates["all.rss"] = template.MustParseFile("templates/all.rss", nil)
+    templates["all.rss"] = template.MustParseFile("templates/all.rss", nil)
 }
 
 
@@ -285,14 +284,14 @@ func renderEditTemplate(req *web.Request, tmpl string, n *NewsItem) {
 
 
 func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem, items []*NewsItem) {
-	externals, _ := loadNewsItems(bson.M{"newscategory":"resources"},"externals")
-	
+    externals, _ := loadNewsItems(bson.M{"newscategory": "resources"}, "externals")
+
     err := templates[tmpl].Execute(
-        req.Respond(status,  web.HeaderContentType, "application/xml"),
+        req.Respond(status, web.HeaderContentType, "application/xml"),
         map[string]interface{}{
             "item":      n,
             "newsItems": items,
-			"externals": externals,
+            "externals": externals,
             "tags":      tagList(),
             "xsrf":      req.Param.Get("xsrf"),
         })
@@ -303,25 +302,25 @@ func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem
 
 
 func renderRssTemplate(req *web.Request, status int, tmpl string, results []*NewsItem) {
-	fmt.Println(tmpl, "rendering")
+    fmt.Println(tmpl, "rendering")
     err := templates[tmpl].Execute(
         req.Respond(status),
         map[string]interface{}{
-            "results":   results,
+            "results": results,
         })
     if err != nil {
         log.Println("error rendering", tmpl, err)
     }
 }
 func renderListTemplate(req *web.Request, status int, tmpl string, results []*NewsItem, items []*NewsItem) {
-	externals, _ := loadNewsItems(bson.M{"newscategory":"resources"},"externals")
+    externals, _ := loadNewsItems(bson.M{"newscategory": "resources"}, "externals")
 
     err := templates[tmpl].Execute(
         req.Respond(status),
         map[string]interface{}{
             "results":   results,
             "newsItems": items,
-			"externals": externals,
+            "externals": externals,
             "tags":      tagList(),
             "xsrf":      req.Param.Get("xsrf"),
         })
@@ -334,14 +333,14 @@ func renderListTemplate(req *web.Request, status int, tmpl string, results []*Ne
 func loadFirstRecord() {
     //open mongo
     mongo, err := mgo.Mongo("127.0.0.1")
-	defer mongo.Close()
+    defer mongo.Close()
     if err != nil {
         panic(err)
     }
 
     c := mongo.DB(*database).C("newsitems")
 
-    err = c.Insert(&NewsItem{Page: Page{Permalink: "news/gophertimes-born", Title: "Gopher Times", Description: "Gopher Times is born.", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Gopher Times", Content: "", Template: "index"}, NewsCategory:"news", Tags: []string{"golang", "gophertimes"}, ContributedBy: "Brian Ketelsen", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Gopher Times is Born!", FullDescription: "I'm hoping that Gopher Times will serve as a source of quality news for the Go community"})
+    err = c.Insert(&NewsItem{Page: Page{Permalink: "news/gophertimes-born", Title: "Gopher Times", Description: "Gopher Times is born.", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Gopher Times", Content: "", Template: "index"}, NewsCategory: "news", Tags: []string{"golang", "gophertimes"}, ContributedBy: "Brian Ketelsen", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Gopher Times is Born!", FullDescription: "I'm hoping that Gopher Times will serve as a source of quality news for the Go community"})
     if err != nil {
         log.Println(err)
     }
@@ -359,9 +358,9 @@ func main() {
         web.NewRouter().
             Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")).
             //			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
-         	Register("/rss/<feed:(.*)>", "GET", rssHandler). 
+            Register("/rss/<feed:(.*)>", "GET", rssHandler).
             Register("/", "GET", homeHandler).
-          	Register("/category/<category:(.*)>", "GET", categoryHandler). 
+            Register("/category/<category:(.*)>", "GET", categoryHandler).
             Register("/tags/<tag:(.*)>", "GET", tagsHandler).
             Register("/edit/<path:(.*)>", "GET", editHandler, "POST", saveHandler).
             Register("/<path:(.*)>", "GET", viewHandler))

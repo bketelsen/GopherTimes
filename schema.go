@@ -1,8 +1,12 @@
 package main
 
-import "time"
-import "github.com/garyburd/twister/web"
+import (
+    "time"
+    "github.com/garyburd/twister/web"
+    md  "github.com/knieriem/markdown"
+    "bytes"
 
+)
 
 type Page struct {
     Permalink   string
@@ -20,8 +24,8 @@ type CachedNewsItem struct {
 }
 
 type CachedNewsItemArray struct {
-	NewsItems []*NewsItem
-	CachedAt int64
+    NewsItems []*NewsItem
+    CachedAt  int64
 }
 
 type NewsItem struct {
@@ -42,5 +46,17 @@ func (n *NewsItem) PostedTimeEnglish() string {
     return localTime.Format("_2 January 2006")
 }
 func (n *NewsItem) EscapedFullDescription() string {
-	return web.HTMLEscapeString(n.FullDescription)
+    return web.HTMLEscapeString(n.FullDescription)
+}
+
+func (n *NewsItem) FormattedFullDescription() string {
+
+        doc := md.Parse(n.FullDescription, md.Extensions{Smart: true})
+
+
+
+        buf := bytes.NewBuffer(nil)
+        doc.WriteHtml(buf)    
+
+        return string(buf.Bytes())
 }
