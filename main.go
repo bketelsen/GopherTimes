@@ -175,14 +175,15 @@ func editHandler(req *web.Request) {
     path := req.Param.Get("path")
     log.Println("Path:", path)
     n, err := loadNewsItem(path)
+
     var first *NewsItem
     if err != nil {
         first = &NewsItem{Page: Page{Permalink: path, Title: "Title", Description: "Description", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Page Title", Content: "Content", Template: "index"}, Tags: []string{"golang", "gophertimes"}, ContributedBy: "", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
+        renderEditTemplate(req, "edit", first)
+    } else {
+        first = n[0]
+        renderEditTemplate(req, "edit", first)
     }
-    first = n[0]
-
-    renderEditTemplate(req, "edit", first)
-
 }
 
 func saveHandler(req *web.Request) {
