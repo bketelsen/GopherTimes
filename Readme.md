@@ -14,6 +14,6 @@ GopherTimes uses the following technologies:
 
 TODO:
 
-RSS feeds - done but with no sensible limits yet
-Twitter stream of #golang tweets
+*RSS feeds - done but with no sensible limits yet
+*Twitter stream of #golang tweets
 
