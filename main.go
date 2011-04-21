@@ -11,6 +11,7 @@ import (
     "time"
     "flag"
     "fmt"
+    "strings"
 )
 
 //flag parse
@@ -18,14 +19,15 @@ var port *int = flag.Int("port", 8081, "http port for server")
 var initdb *bool = flag.Bool("initdb", false, "create initial record in mongodb")
 var database *string = flag.String("database", "public_web", "mongo database name")
 
-func loadNewsItem(path string) (*NewsItem, os.Error) {
+func loadNewsItem(path string) ([]*NewsItem, os.Error) {
     var item *NewsItem
-
+    items := make([]*NewsItem, 1)
     cachedItem, found := cachedNewsItems[path]
     if found {
         t := time.Seconds()
         if (t - cachedItem.CachedAt) < (60 * 10) { // cache for 10 minutes
-            return cachedItem.NewsItem, nil
+            items[0] = cachedItem.NewsItem
+            return items, nil
         }
     }
     mongo, err := mgo.Mongo("localhost")
@@ -39,7 +41,8 @@ func loadNewsItem(path string) (*NewsItem, os.Error) {
 
     err = c.Find(bson.M{"page.permalink": path}).One(item)
     go cacheNewsItem(item)
-    return item, err
+    items[0] = item
+    return items, err
 }
 
 func tagList() []interface{} {
@@ -115,7 +118,7 @@ func viewHandler(req *web.Request) {
     list, err := loadNewsItems(bson.M{}, "all")
 
     if err != nil {
-        renderSingleTemplate(req, web.StatusNotFound, "404", p, list)
+        renderListTemplate(req, web.StatusNotFound, "404", p, list)
     } else {
         /*		var templateName string
         		if len(p.Template) != 0 {
@@ -124,7 +127,7 @@ func viewHandler(req *web.Request) {
         			templateName = "article"
         		}
         */
-        renderSingleTemplate(req, web.StatusOK, "article", p, list)
+        renderListTemplate(req, web.StatusOK, "index", p, list)
     }
 }
 
@@ -158,10 +161,13 @@ func editHandler(req *web.Request) {
     path := req.Param.Get("path")
     log.Println("Path:", path)
     n, err := loadNewsItem(path)
+    var first *NewsItem
     if err != nil {
-        n = &NewsItem{Page: Page{Permalink: path, Title: "Title", Description: "Description", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Page Title", Content: "Content", Template: "article"}, Tags: []string{"golang", "gophertimes"}, ContributedBy: "", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
+        first = &NewsItem{Page: Page{Permalink: path, Title: "Title", Description: "Description", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Page Title", Content: "Content", Template: "index"}, Tags: []string{"golang", "gophertimes"}, ContributedBy: "", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
     }
-    renderEditTemplate(req, "edit", n)
+    first = n[0]
+
+    renderEditTemplate(req, "edit", first)
 
 }
 
@@ -189,7 +195,7 @@ func saveHandler(req *web.Request) {
         PageTitle:   pageTitle,
         Content:     content,
         Template:    template},
-        Tags:            []string{"golang", "gophertimes"},
+        Tags:            strings.Split(req.Param.Get("newsitem-tags"), ",", -1),
         ContributedBy:   contributedby,
         Byline:          byline,
         PostedTime:      time.Seconds(),
@@ -207,10 +213,11 @@ func saveHandler(req *web.Request) {
 
     c := mongo.DB(*database).C("newsitems")
 
-    err = c.Insert(n)
+    err = c.Upsert(bson.M{"page.permalink": permalink}, n)
     if err != nil {
         log.Println(err)
     }
+    go removeCachedNewsItem(permalink)
 
     req.Redirect("/"+permalink, false)
 
@@ -244,7 +251,7 @@ var templates = make(map[string]*template.Template)
 //var mongo *mgo.Session
 
 func init() {
-    for _, tmpl := range []string{"index", "404", "article", "edit"} {
+    for _, tmpl := range []string{"index", "404", "edit"} {
         templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
     }
     templates["all.rss"] = template.MustParseFile("templates/all.rss", nil)

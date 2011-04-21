@@ -5,7 +5,7 @@ import (
     "github.com/garyburd/twister/web"
     md  "github.com/knieriem/markdown"
     "bytes"
-
+    "strings"
 )
 
 type Page struct {
@@ -45,18 +45,24 @@ func (n *NewsItem) PostedTimeEnglish() string {
     localTime := time.SecondsToLocalTime(n.PostedTime)
     return localTime.Format("_2 January 2006")
 }
+
+func (n *NewsItem) ConvertTags() string {
+
+    return strings.Join(n.Tags, ",")
+
+}
+
+
 func (n *NewsItem) EscapedFullDescription() string {
     return web.HTMLEscapeString(n.FullDescription)
 }
 
 func (n *NewsItem) FormattedFullDescription() string {
 
-        doc := md.Parse(n.FullDescription, md.Extensions{Smart: true})
+    doc := md.Parse(n.FullDescription, md.Extensions{Smart: true})
 
+    buf := bytes.NewBuffer(nil)
+    doc.WriteHtml(buf)
 
-
-        buf := bytes.NewBuffer(nil)
-        doc.WriteHtml(buf)    
-
-        return string(buf.Bytes())
+    return string(buf.Bytes())
 }
