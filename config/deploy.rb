@@ -61,6 +61,7 @@ namespace :deploy do
     run "goinstall github.com/garyburd/twister/server"
     run "goinstall launchpad.net/mgo"
     run "goinstall launchpad.net/gobson/bson"
+    run "goinstall github.com/knieriem/markdown"
   end
 
   desc "compile and link the application"
