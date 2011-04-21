@@ -71,7 +71,7 @@
 		</div>
 		
 		<ul id="footer">
-			<li><div class="head"><label for="search">Search</label></div><input type="text" name="search" value="Coming Soon..." id="search" /></li>
+			<li><div class="head"><form action="/search" method="POST"><input type="hidden" name="xsrf" value="{xsrf}"><label for="search">Search</label></div><input type="text" name="search" value="" id="search" /></form></li>
 			<li><div class="head">Follow</div><a href="http://www.gophertimes.com/rss/all.rss">RSS</a>, <a href="http://twitter.com/gophertimes">Twitter</a></li>
 			<li><div class="head">Colophon</div>Page set in <a href="http://www.fontsquirrel.com/fonts/Bergamo-Std">Bergamo</a>, Helvetica, and Georgia.</li>
 			<li><div class="head">Biblio</div>Powered by <a href="https://github.com/garyburd/twister/">Twister</a> with data from <a href="http://labix.org/mgo">mgo</a> running on <a href="http://golang.org">Go</a> hosted at <a href="https://www.github.com/bketelsen/GopherTimes">GitHub</a>.</li>

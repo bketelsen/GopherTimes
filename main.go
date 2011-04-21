@@ -156,6 +156,20 @@ func categoryHandler(req *web.Request) {
     }
 }
 
+func searchHandler(req *web.Request) {
+    search := req.Param.Get("search")
+
+    //p, err := loadNewsItemsByTag(tag)
+    results, err := loadNewsItems(bson.M{"fulldescription": &bson.RegEx{Pattern:search}}, search)
+    p, err := loadNewsItems(bson.M{}, "all")
+    if err != nil {
+        renderListTemplate(req, web.StatusNotFound, "404", results, p)
+    } else {
+        renderListTemplate(req, web.StatusOK, "index", results, p)
+    }
+}
+
+
 
 func editHandler(req *web.Request) {
     path := req.Param.Get("path")
@@ -370,6 +384,7 @@ func main() {
             Register("/category/<category:(.*)>", "GET", categoryHandler).
             Register("/tags/<tag:(.*)>", "GET", tagsHandler).
             Register("/edit/<path:(.*)>", "GET", editHandler, "POST", saveHandler).
+            Register("/search", "POST",searchHandler,).
             Register("/<path:(.*)>", "GET", viewHandler))
     server.Run(portString, h)
 
