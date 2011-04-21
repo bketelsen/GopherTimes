@@ -384,7 +384,7 @@ func main() {
             Register("/category/<category:(.*)>", "GET", categoryHandler).
             Register("/tags/<tag:(.*)>", "GET", tagsHandler).
             Register("/edit/<path:(.*)>", "GET", editHandler, "POST", saveHandler).
-            Register("/search", "POST",searchHandler,).
+            Register("/search", "POST",searchHandler, "GET", searchHandler).
             Register("/<path:(.*)>", "GET", viewHandler))
     server.Run(portString, h)
 
