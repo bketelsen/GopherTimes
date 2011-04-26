@@ -178,7 +178,7 @@ func editHandler(req *web.Request) {
 
     var first *NewsItem
     if err != nil {
-        first = &NewsItem{Page: Page{Permalink: path, Title: "Title", Description: "Description", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Page Title", Content: "Content", Template: "index"}, Tags: []string{"golang", "gophertimes"}, ContributedBy: "", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
+        first = &NewsItem{Page: Page{Permalink: path, Title: "Title", Description: "Description", Keywords: "Go, Golang, Go News,Golang news", PageTitle: "Page Title", Content: "Content", Template: "index"}, Tags: []string{"golang"}, ContributedBy: "", Byline: "Brian Ketelsen", PostedTime: time.Seconds(), Blurb: "Article Blurb", FullDescription: "Article Full"}
         renderEditTemplate(req, "edit", first)
     } else {
         first = n[0]
@@ -379,7 +379,7 @@ func main() {
     h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
         web.NewRouter().
             Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")).
-            //			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
+			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
             Register("/rss/<feed:(.*)>", "GET", rssHandler).
             Register("/", "GET", homeHandler).
             Register("/category/<category:(.*)>", "GET", categoryHandler).
