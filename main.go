@@ -378,8 +378,8 @@ func main() {
 
     h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
         web.NewRouter().
-            Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/")).
-			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico")).
+            Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/", &web.ServeFileOptions{})).
+			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico", &web.ServeFileOptions{})).
             Register("/rss/<feed:(.*)>", "GET", rssHandler).
             Register("/", "GET", homeHandler).
             Register("/category/<category:(.*)>", "GET", categoryHandler).
