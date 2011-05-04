@@ -12,12 +12,15 @@ import (
     "flag"
     "fmt"
     "strings"
+    "exec"
+    "io/ioutil"
 )
 
 //flag parse
 var port *int = flag.Int("port", 8081, "http port for server")
 var initdb *bool = flag.Bool("initdb", false, "create initial record in mongodb")
 var database *string = flag.String("database", "public_web", "mongo database name")
+var goVersion string
 
 func loadNewsItem(path string) ([]*NewsItem, os.Error) {
     var item *NewsItem
@@ -270,6 +273,23 @@ func init() {
         templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
     }
     templates["all.rss"] = template.MustParseFile("templates/all.rss", nil)
+        argv := []string{
+            "6g",
+            "-V",
+            "/dev/null",
+            "EOF",
+        }
+        exe, err := exec.LookPath(argv[0])
+        if err != nil {
+           fmt.Println("run:", err)
+        }
+        cmd, err := exec.Run(exe, argv, nil, "", exec.DevNull, exec.Pipe, exec.DevNull)
+        if err != nil {
+            fmt.Println("run:", err)
+        }
+        buf, err := ioutil.ReadAll(cmd.Stdout)
+        goVersion = strings.TrimSpace(string(buf))
+
 }
 
 
@@ -297,6 +317,7 @@ func renderEditTemplate(req *web.Request, tmpl string, n *NewsItem) {
         req.Respond(web.StatusOK),
         map[string]interface{}{
             "item": n,
+            "goversion": goVersion,
             "xsrf": req.Param.Get("xsrf"),
         })
     if err != nil {
@@ -315,6 +336,7 @@ func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem
             "newsItems": items,
             "externals": externals,
             "tags":      tagList(),
+            "goversion": goVersion,
             "xsrf":      req.Param.Get("xsrf"),
         })
     if err != nil {
@@ -344,6 +366,7 @@ func renderListTemplate(req *web.Request, status int, tmpl string, results []*Ne
             "newsItems": items,
             "externals": externals,
             "tags":      tagList(),
+            "goversion": goVersion,
             "xsrf":      req.Param.Get("xsrf"),
         })
     if err != nil {
