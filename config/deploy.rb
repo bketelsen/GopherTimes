@@ -66,7 +66,6 @@ namespace :deploy do
 
   task :clean_install do
      # clone
-    run "git clone #{repository} #{deploy_to}"
     run "goinstall -clean github.com/garyburd/twister/web"
     run "goinstall -clean github.com/garyburd/twister/server"
     run "goinstall -clean launchpad.net/mgo"
