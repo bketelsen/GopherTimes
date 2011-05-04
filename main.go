@@ -12,8 +12,8 @@ import (
     "flag"
     "fmt"
     "strings"
-    "exec"
-    "io/ioutil"
+//    "exec"
+//    "io/ioutil"
 )
 
 //flag parse
@@ -273,7 +273,8 @@ func init() {
         templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
     }
     templates["all.rss"] = template.MustParseFile("templates/all.rss", nil)
-        argv := []string{
+  
+/*        argv := []string{
             "6g",
             "-V",
             "/dev/null",
@@ -288,7 +289,8 @@ func init() {
             fmt.Println("run:", err)
         }
         buf, err := ioutil.ReadAll(cmd.Stdout)
-        goVersion = strings.TrimSpace(string(buf))
+        */
+        goVersion = "release.r57.1 8294"
 
 }
 
