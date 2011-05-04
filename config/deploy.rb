@@ -62,6 +62,8 @@ namespace :deploy do
     run "goinstall launchpad.net/mgo"
     run "goinstall launchpad.net/gobson/bson"
     run "goinstall github.com/knieriem/markdown"
+    run "goinstall github.com/garyburd/twister/expvar"
+    run "goinstall github.com/garyburd/twister/pprof"
   end
 
   task :clean_install do
@@ -71,6 +73,8 @@ namespace :deploy do
     run "goinstall -clean launchpad.net/mgo"
     run "goinstall -clean launchpad.net/gobson/bson"
     run "goinstall -clean github.com/knieriem/markdown"
+    run "goinstall -clean github.com/garyburd/twister/expvar"
+    run "goinstall -clean github.com/garyburd/twister/pprof"
   end
 
   desc "compile and link the application"

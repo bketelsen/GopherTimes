@@ -12,6 +12,8 @@ import (
     "flag"
     "fmt"
     "strings"
+    "github.com/garyburd/twister/expvar"
+    "github.com/garyburd/twister/pprof"
 //    "exec"
 //    "io/ioutil"
 )
@@ -403,6 +405,9 @@ func main() {
 
     h := web.ProcessForm(10000, true, // limit size of form to 10k, enable xsrf
         web.NewRouter().
+                        Register("/debug/<:.*>", "*", web.NewRouter().
+                    Register("/debug/expvar", "GET", expvar.ServeWeb).
+                    Register("/debug/pprof/<:.*>", "*", pprof.ServeWeb)).
             Register("/static/<path:.*>", "GET", web.DirectoryHandler("static/", &web.ServeFileOptions{})).
 			Register("/favicon.ico", "GET", web.FileHandler("static/favicon.ico", &web.ServeFileOptions{})).
             Register("/rss/<feed:(.*)>", "GET", rssHandler).
