@@ -64,6 +64,16 @@ namespace :deploy do
     run "goinstall github.com/knieriem/markdown"
   end
 
+  task :clean_install do
+     # clone
+    run "git clone #{repository} #{deploy_to}"
+    run "goinstall -clean github.com/garyburd/twister/web"
+    run "goinstall -clean github.com/garyburd/twister/server"
+    run "goinstall -clean launchpad.net/mgo"
+    run "goinstall -clean launchpad.net/gobson/bson"
+    run "goinstall -clean github.com/knieriem/markdown"
+  end
+
   desc "compile and link the application"
   task :compile do
     clean
