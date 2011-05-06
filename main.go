@@ -272,9 +272,9 @@ var templates = make(map[string]*template.Template)
 
 func init() {
     for _, tmpl := range []string{"index", "404", "edit"} {
-        templates[tmpl] = template.MustParseFile("templates/"+tmpl+".html", nil)
+        templates[tmpl] = template.MustParseFile("/var/www/apps/gophertimes/templates/"+tmpl+".html", nil)
     }
-    templates["all.rss"] = template.MustParseFile("templates/all.rss", nil)
+    templates["all.rss"] = template.MustParseFile("/var/www/apps/gophertimes/templates/all.rss", nil)
   
 /*        argv := []string{
             "6g",

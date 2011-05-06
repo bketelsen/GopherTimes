@@ -2,12 +2,12 @@
 # REQUIRED VARIABLES
 # =============================================================================
 set :application, "gophertimes"
-set :domain, "www.gophertimes.com"
+set :domain, "www.brianketelsen.com"
 
-set :deploy_to, "/home/briank/gophertimes"
-set :user, "briank"
-set :owner, "briank"
-set :group, "briank"
+set :deploy_to, "/var/www/apps/gophertimes"
+set :user, "bketelsen"
+set :owner, "bketelsen"
+set :group, "bketelsen"
 set :branch, "master"
 
 set :use_sudo, false
@@ -17,6 +17,7 @@ set :scm, :git
 set :repository,  "git@github.com:bketelsen/GopherTimes.git"
 set :executable, "gophertimes"
 
+default_run_options[:pty] = true 
 
 # =============================================================================
 # ROLES
@@ -26,9 +27,10 @@ role :app, domain
 role :db,  domain, :primary => true
 
 set :default_environment, { 
-  'PATH' => "/home/briank/go/bin:/opt/ruby-enterprise-1.8.6-20090610/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:$PATH",
-  'GOARCH'=>"amd64",
-  'GOROOT'=>"/home/briank/go",
+  'PATH' => "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH",
+  'GOARCH'=>"386",
+  'GOROOT'=>"/usr/lib/go",
+  'GOPATH' => "/home/bketelsen/go",
   'GOOS'=>"linux"
 
 }
@@ -37,10 +39,10 @@ namespace :deploy do
   task :start do 
     stop
     compile
-    run "/usr/sbin/monit start #{executable}"
+    sudo "bluepill #{executable} start"
   end
   task :stop do 
-    run "/usr/sbin/monit stop #{executable}"
+    sudo "bluepill #{executable} stop"
   end
   task :restart do 
     stop
@@ -57,24 +59,10 @@ namespace :deploy do
   task :setup do
      # clone
     run "git clone #{repository} #{deploy_to}"
-    run "goinstall github.com/garyburd/twister/web"
-    run "goinstall github.com/garyburd/twister/server"
-    run "goinstall launchpad.net/mgo"
-    run "goinstall launchpad.net/gobson/bson"
-    run "goinstall github.com/knieriem/markdown"
-    run "goinstall github.com/garyburd/twister/expvar"
-    run "goinstall github.com/garyburd/twister/pprof"
   end
-
-  task :clean_install do
-     # clone
-    run "goinstall -clean github.com/garyburd/twister/web"
-    run "goinstall -clean github.com/garyburd/twister/server"
-    run "goinstall -clean launchpad.net/mgo"
-    run "goinstall -clean launchpad.net/gobson/bson"
-    run "goinstall -clean github.com/knieriem/markdown"
-    run "goinstall -clean github.com/garyburd/twister/expvar"
-    run "goinstall -clean github.com/garyburd/twister/pprof"
+  
+  task :status do
+    sudo "bluepill #{executable} status"
   end
 
   desc "compile and link the application"
@@ -93,5 +81,35 @@ namespace :deploy do
     run "cd #{deploy_to} && git pull origin #{branch}"
   end
 
+  task :goinstall do
+    run "goinstall -clean github.com/garyburd/twister/web"
+    run "goinstall -clean github.com/garyburd/twister/server"
+    run "goinstall -clean launchpad.net/mgo"
+    run "goinstall -clean launchpad.net/gobson/bson"
+    run "goinstall -clean github.com/knieriem/markdown"
+    run "goinstall -clean github.com/garyburd/twister/expvar"
+    run "goinstall -clean github.com/garyburd/twister/pprof"
+  end
+  
+  desc "Setup and clone the repo."
+  task :setup do
+     # clone
+    run "git clone #{repository} #{deploy_to}"
+    run "goinstall github.com/garyburd/twister/web"
+    run "goinstall github.com/garyburd/twister/server"
+    run "goinstall launchpad.net/mgo"
+    run "goinstall launchpad.net/gobson/bson"
+    run "goinstall github.com/knieriem/markdown"
+    run "goinstall github.com/garyburd/twister/expvar"
+    run "goinstall github.com/garyburd/twister/pprof"
+  end
+  
 
 end
+
+
+
+
+
+
+
