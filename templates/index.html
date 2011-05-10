@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="/static/css/ie7.css" type="text/css" media="screen" title="iefix" charset="utf-8">
 	<![endif]-->
 </head>
-
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
 
 <!--[if !IE 8]><!--> <body>  <!-- <![endif]-->
 <!--[if IE 8]> <body class="ie8"> <![endif]-->
@@ -66,7 +66,40 @@
 			</div>
 			<ul id="recent_posts" class="body_element">
 				<li class="header">#golang</li>
-				<li>Twitter bar</li>
+				<li>
+				<script>
+				new TWTR.Widget({.meta-left}
+				  version: 2,
+				  type: 'search',
+				  search: '#golang',
+				  interval: 6000,
+				  title: 'Go in the wild',
+				  subject: '#golang',
+				  width: 100,
+				  height: 300,
+				  theme: {.meta-left}
+				    shell: {.meta-left}
+				      background: '#8ec1da',
+				      color: '#ffffff'
+				    {.meta-right},
+				    tweets: {.meta-left}
+				      background: '#ffffff',
+				      color: '#444444',
+				      links: '#1985b5'
+				   {.meta-right}
+				  {.meta-right},
+				  features: {.meta-left}
+				    scrollbar: false,
+				    loop: true,
+				    live: true,
+				    hashtags: true,
+				    timestamp: true,
+				    avatars: true,
+				    toptweets: true,
+				    behavior: 'default'
+				  {.meta-right}
+				{.meta-right}).render().start();
+				</script></li>
 				<li class="header">Recent Articles</li>
 				{.repeated section newsItems} 
 				<li>
