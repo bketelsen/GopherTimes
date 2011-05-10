@@ -251,7 +251,7 @@ func homeHandler(req *web.Request) {
         log.Println(err.String())
         renderListTemplate(req, web.StatusNotFound, "404", p[0:1], p)
     } else {
-        renderListTemplate(req, web.StatusOK, "index", p[0:1], p[1:])
+        renderListTemplate(req, web.StatusOK, "index", p[0:10], p[11:])
     }
 }
 
