@@ -184,6 +184,15 @@ body {
 }
 #taglist li { line-height: 1.4em; }
 
+/* twitter */
+#twitter {
+	width: 140px;
+	list-style: none;
+	font: italic 1em Bergamo, Georgia, serif;
+	text-transform: lowercase;
+}
+#twitter li { line-height: 1.4em; }
+
 /* Footer */
 
 #footer {
