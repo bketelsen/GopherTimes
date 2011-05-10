@@ -65,41 +65,6 @@
 				{.end}
 			</div>
 			<ul id="recent_posts" class="body_element">
-				<li class="header">#golang</li>
-				<li><script src="http://widgets.twimg.com/j/2/widget.js"></script>
-				<script>
-				new TWTR.Widget({.meta-left}
-				  version: 2,
-				  type: 'search',
-				  search: '#golang',
-				  interval: 6000,
-				  title: 'Go in the wild',
-				  subject: '#golang',
-				  width: 138,
-				  height: 300,
-				  theme: {.meta-left}
-				    shell: {.meta-left}
-				      background: '#8ec1da',
-				      color: '#ffffff'
-				    {.meta-right},
-				    tweets: {.meta-left}
-				      background: '#ffffff',
-				      color: '#444444',
-				      links: '#1985b5'
-				   {.meta-right}
-				  {.meta-right},
-				  features: {.meta-left}
-				    scrollbar: false,
-				    loop: true,
-				    live: true,
-				    hashtags: true,
-				    timestamp: true,
-				    avatars: true,
-				    toptweets: true,
-				    behavior: 'default'
-				  {.meta-right}
-				{.meta-right}).render().start();
-				</script></li>
 				<li class="header">Recent Articles</li>
 				{.repeated section newsItems} 
 				<li>
@@ -116,12 +81,7 @@
 				<li class="header">External</li>
 				{.repeated section externals} <li><a href="{ExternalLink}">{Page.Title}</a></li>  {.end}
 			</ul>
-			<br/>
-
-
-
 		</div>
-		
 		<ul id="footer">
 			<li><div class="head"><form action="/search" method="POST"><input type="hidden" name="xsrf" value="{xsrf}"><label for="search">Search</label></div><input type="text" name="search" value="" id="search" /></form></li>
 			<li><div class="head">Follow</div><a href="http://www.gophertimes.com/rss/all.rss">RSS</a>, <a href="http://twitter.com/gophertimes">Twitter</a></li>
