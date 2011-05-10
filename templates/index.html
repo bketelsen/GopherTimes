@@ -86,7 +86,7 @@
 			<ul id="twitter" class="body_element">
 				<li class="header">#golang<br/><script src="http://widgets.twimg.com/j/2/widget.js"></script>
 				<script>
-				new TWTR.Widget({{
+				new TWTR.Widget({.meta-left}
 				  version: 2,
 				  type: 'search',
 				  search: '#golang',
@@ -95,18 +95,18 @@
 				  subject: '#golang',
 				  width: 250,
 				  height: 300,
-				  theme: {{
-				    shell: {{
+				  theme: {.meta-left}
+				    shell: {.meta-right}
 				      background: '#8ec1da',
 				      color: '#ffffff'
-				    }},
-				    tweets: {{
+				    {.meta-right},
+				    tweets: {.meta-left}
 				      background: '#ffffff',
 				      color: '#444444',
 				      links: '#1985b5'
-				    }}
-				  }},
-				  features: {{
+				   {.meta-right}
+				  {.meta-right},
+				  features: {.meta-left}
 				    scrollbar: false,
 				    loop: true,
 				    live: true,
@@ -115,8 +115,8 @@
 				    avatars: true,
 				    toptweets: true,
 				    behavior: 'default'
-				  }}
-				}}).render().start();
+				  {.meta-right}
+				{.meta-right}).render().start();
 				</script></li>
 				
 			</ul>
