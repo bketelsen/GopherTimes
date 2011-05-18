@@ -53,7 +53,7 @@ func (n *NewsItem) ConvertTags() string {
 }
 
 func (n *NewsItem) RssBestLink() string{
-	if n.ExternalLink != nil {
+	if len(n.ExternalLink) > 0 {
 		return n.ExternalLink
 	}
 	return "http://www.gophertimes.com/" + n.Page.Permalink
