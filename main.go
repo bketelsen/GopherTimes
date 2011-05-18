@@ -352,7 +352,7 @@ func renderSingleTemplate(req *web.Request, status int, tmpl string, n *NewsItem
 func renderRssTemplate(req *web.Request, status int, tmpl string, results []*NewsItem) {
     fmt.Println(tmpl, "rendering")
     err := templates[tmpl].Execute(
-        req.Respond(status),
+        req.Respond(status, web.HeaderContentType, "application/rss+xml"),
         map[string]interface{}{
             "results": results,
         })
