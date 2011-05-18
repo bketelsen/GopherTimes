@@ -8,7 +8,8 @@
 	{.repeated section results} 
 	  <item>
 	    <title>{Page.Title}</title>
-	    <link>http://www.gophertimes.com/{Page.Permalink}</link>
+		<pubDate>{PostedTimeEnglish}</pubDate>
+	    <link>{RssBestLink}</link>
 	    <description>{EscapedFullDescription}</description>
 	  </item>
 	{.end}

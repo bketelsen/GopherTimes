@@ -52,6 +52,12 @@ func (n *NewsItem) ConvertTags() string {
 
 }
 
+func (n *NewsItem) RssBestLink() string{
+	if n.ExternalLink != nil {
+		return n.ExternalLink
+	}
+	return "http://www.gophertimes.com/" + n.Page.Permalink
+}
 
 func (n *NewsItem) EscapedFullDescription() string {
     return web.HTMLEscapeString(n.FullDescription)
