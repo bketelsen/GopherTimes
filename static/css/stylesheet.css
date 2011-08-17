@@ -140,6 +140,7 @@ body {
 	line-height: 1.75em; /* 1.4 em */
 }
 #feature p, #feature .dateline, #feature .metadata, #feature .tags { margin-left: 80px; }
+#feature ul { margin-left: 80px; }
 #feature .metadata, #recent_posts .metadata {
 	font: .8em Georgia, serif;
 	text-align: right;
