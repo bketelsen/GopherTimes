@@ -1,3 +1,7 @@
+Good lord, this is three year old code that probably won't compile for a website that isn't in use anymore.  please don't use it, star it, read it, or otherwise pay any attention to it.
+
+____
+
 This is the source code for GopherTimes.com - a community website for the Go programming language.
 
 Go is probably someone's trademark - maybe even Google's.  
